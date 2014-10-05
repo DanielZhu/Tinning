@@ -1,0 +1,109 @@
+// @import "node_modules/highlight/lib/vendor/highlight.js/styles/default.css";
+
+
+/*---------------------- Font ---------------------*/
+
+@font-face {
+    font-family: "Anonymous Pro";
+    src: url("../resources/fonts/Anonymous Pro regular.ttf");
+}
+
+@font-face {
+    font-family: "Anonymous Pro Italic";
+    src: url("../resources/fonts/Anonymous Pro italic.ttf");
+}
+
+@font-face {
+    font-family: "Source Code Pro";
+    src: url("../resources/fonts/Source Code Pro regular.ttf");
+}
+
+@font-face {
+    font-family: "Source Code Pro 500";
+    src: url("../resources/fonts/Source Code Pro 500.ttf");
+}
+
+html { height: 100%; }
+
+body {
+  font-family: "aller-light";
+  font-size: 14px;
+  color: #30404f;
+  margin: 0; 
+  padding: 0;
+  height:100%;
+}
+.container {
+  position:relative;
+  width: 100%;
+  > div {
+    clear: both;
+  }
+  ul {
+    -webkit-padding-start: 0px;
+    list-style: none;
+    margin: 0;
+    &.row {
+      display: inline;
+      width: 100%;
+      display: inline-block;
+    }
+  }
+}
+
+/*---------------------- Low resolutions (> 320px) ---------------------*/
+@media only screen and (min-width: 320px) {
+  .code {
+    // width: 100%;
+  }
+
+  .comment {
+    width: 100%;
+  }
+  #handler-vertical {
+    width: 0px;
+  }
+
+  .background {
+    width: 0px;
+  }
+
+}
+
+/*----------------------  (> 481px) ---------------------*/
+@media only screen and (min-width: 481px) {
+  .code {
+    margin-left: 200px;
+  }
+  
+  .comment {
+    width: 200 - 40px;
+  }
+
+  #handler-vertical {
+    width: 200px;
+  }
+
+  .background {
+    width: 200px;
+  }
+}
+
+/*---------------------- (> 1025px) ---------------------*/
+@media only screen and (min-width: 1025px) {
+  .code {
+    margin-left: 450px;
+  }
+  
+  .comment {
+    width: 450 - 40px;
+  }
+
+  #handler-vertical {
+    width: 450px;
+  }
+
+  .background {
+    width: 450px;
+  }
+}

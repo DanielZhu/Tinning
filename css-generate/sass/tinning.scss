@@ -1,0 +1,122 @@
+/* Welcome to Compass.
+ * In this file you should write your main styles. (or centralize your imports)
+ * Import this file using the following HTML or equivalent:
+ * <link href="/stylesheets/style.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
+
+// @import "compass/reset";
+
+@import "custom";
+
+$top-bar-margin: 10px;
+$popup-width: 400px;
+
+body {
+  width: $popup-width;
+  height: 500px;
+}
+
+ul, li{
+    list-style-type: none;
+}
+
+#top-bar {
+  position: fixed;
+  top: 0px;
+  background-color: #fff;
+	display: inline-block;
+  width: $popup-width;
+  padding: 10px 0px;
+  .item {
+    float: left;
+  }
+  .logo {
+    margin-left: $top-bar-margin;
+    width: 80px;
+  }
+  .options-btn {
+    width: $popup-width - 80 * 2 - $top-bar-margin * 2;
+    text-align: center;
+  }
+  .tin-btn {
+    text-align: right;
+    width: 80px;
+    margin-right: $top-bar-margin;
+  }
+}
+.count {
+  height: 24px;
+  width: 24px;
+  font-size: 11px;
+  color: #fff;
+  background-color: #C0392B;
+  border: 1px solid #C0392B;
+  border-radius: 15px;
+  vertical-align: middle;
+  text-align: center;
+}
+#tab-collection-grid {
+  margin-top: 40px;
+  > ul {
+    margin: 0px 10px 0px 0px;
+    padding: 0px;
+    clear: both;
+    > li {
+      padding: 10px 0px 10px 10px;
+      color: #000;
+      border-bottom: 1px solid #cccccc;
+      .tab-collection-grid-item {
+        width: 100%;
+        display: inline-block;  
+        input {
+          float: left;
+        }
+        .icon-pattern {
+          width: 300px;
+          float: left;
+          display:inline;
+          margin-left: 10px;
+          overflow-x: auto;
+          white-space: nowrap;
+          img {
+            margin: 0px 2px;
+          }
+        }
+        .icon-open {
+          width: 20px;
+          float: right;
+          font-size: 16px;
+        }
+      }
+    }
+  }
+}
+#tab-collection-list {
+  margin-top: 40px;
+  > ul {
+    padding: 0px;
+    > li {
+      padding: 20px 0px 20px 10px;
+      font-size: 18px;
+      color: #000;
+      border-bottom: 1px solid #cccccc;
+      .tab-collection-list-item {
+        width: 100%;
+        display: inline-block;  
+        input {
+          float: left;
+        }
+        ul {
+          float: left;
+          padding-left: 10px;
+          li {
+            padding-bottom: 10px;
+            img {
+              vertical-align: middle;
+              margin-right: 5px;
+            }
+          }
+        }
+      }
+    }
+  }
+}

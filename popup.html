@@ -1,0 +1,107 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Getting Started Extension's Popup</title>
+    <link rel="stylesheet" type="text/css" href="tinning.css">
+
+    <!--
+      - JavaScript and HTML must be in separate files: see our Content Security
+      - Policy documentation[1] for details and explanation.
+      -
+      - [1]: http://developer.chrome.com/extensions/contentSecurityPolicy.html
+     -->
+
+    <script src="./libs/jquery-2.0.3.js"></script>
+    <script src="popup.js"></script>
+  </head>
+  <body>
+    <div id="top-bar">
+      <div class="item logo">Tinning</div>
+      <div class="item options-btn">Expand / Collapse</div>
+      <div class="item tin-btn">Tin</div>
+    </div>
+    <div id="tab-collection-grid">
+      <ul>
+        <li>
+          <div class="tab-collection-grid-item">
+            <input type="button" class="count" value="18"></input>
+            <div class="icon-pattern">
+              <img src="res/twitter.png">
+              <img src="res/facebook.png">
+              <img src="res/facebook.png">
+              <img src="res/facebook.png">
+              <img src="res/linkedIn.png">
+              <img src="res/rss.png">
+              <img src="res/google+.png">
+              <img src="res/facebook.png">
+              <img src="res/facebook.png">
+              <img src="res/facebook.png">
+              <img src="res/linkedIn.png">
+              <img src="res/rss.png">
+              <img src="res/google+.png">
+              <img src="res/google+.png">
+              <img src="res/google+.png">
+              <img src="res/google+.png">
+              <img src="res/google+.png">
+              <img src="res/google_driver.png">
+            </div>
+            <img class="icon-open" src="res/open.png">
+          </div>
+        </li>
+        <li>
+          <div class="tab-collection-grid-item">
+            <input type="button" class="count" value="7"></input>
+            <div class="icon-pattern">
+              <img src="res/windows.png">
+              <img src="res/pinterest.png">
+              <img src="res/instagram.png">
+              <img src="res/youtube.png">
+              <img src="res/dropbox.png">
+              <img src="res/appstore.png">
+              <img src="res/apple.png">
+            </div>
+            <img class="icon-open" src="res/open.png">
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div id="tab-collection-list">
+      <ul>
+        <li>
+          <div class="tab-collection-list-item">
+            <input type="button" class="count" value="2"></input>
+            <ul>
+              <li>
+                <div><img src="res/instagram.png">Instagram</div>
+              </li>
+              <li>
+                <div><img src="res/twitter.png">Twitter</div>
+              </li>
+            </ul>
+          </div>
+        </li>
+        <li>
+          <div class="tab-collection-list-item">
+            <input type="button" class="count" value="12"></input>
+            <ul>
+              <li>
+                <div><img src="res/instagram.png">Instagram</div>
+              </li>
+              <li>
+                <div><img src="res/twitter.png">Twitter</div>
+              </li>
+            </ul>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <footer>
+      <a href="credits.html" target="_blank">Credits</a>
+      &nbsp;|&nbsp;
+      <a href="https://chrome.google.com/webstore/search?q=tts"
+         target="_blank">Get more voices</a>
+    </footer>
+  </body>
+</html>
+

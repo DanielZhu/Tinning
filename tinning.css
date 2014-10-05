@@ -1,0 +1,260 @@
+/* Welcome to Compass.
+ * In this file you should write your main styles. (or centralize your imports)
+ * Import this file using the following HTML or equivalent:
+ * <link href="/stylesheets/style.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
+/*---------------------- Font ---------------------*/
+@font-face {
+  font-family: "Anonymous Pro";
+  src: url("../resources/fonts/Anonymous Pro regular.ttf");
+}
+
+@font-face {
+  font-family: "Anonymous Pro Italic";
+  src: url("../resources/fonts/Anonymous Pro italic.ttf");
+}
+
+@font-face {
+  font-family: "Source Code Pro";
+  src: url("../resources/fonts/Source Code Pro regular.ttf");
+}
+
+@font-face {
+  font-family: "Source Code Pro 500";
+  src: url("../resources/fonts/Source Code Pro 500.ttf");
+}
+
+/* line 26, css-generate/sass/_custom.scss */
+html {
+  height: 100%;
+}
+
+/* line 28, css-generate/sass/_custom.scss */
+body {
+  font-family: "aller-light";
+  font-size: 14px;
+  color: #30404f;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+/* line 36, css-generate/sass/_custom.scss */
+.container {
+  position: relative;
+  width: 100%;
+}
+/* line 39, css-generate/sass/_custom.scss */
+.container > div {
+  clear: both;
+}
+/* line 42, css-generate/sass/_custom.scss */
+.container ul {
+  -webkit-padding-start: 0px;
+  list-style: none;
+  margin: 0;
+}
+/* line 46, css-generate/sass/_custom.scss */
+.container ul.row {
+  display: inline;
+  width: 100%;
+  display: inline-block;
+}
+
+/*---------------------- Low resolutions (> 320px) ---------------------*/
+@media only screen and (min-width: 320px) {
+  /* line 60, css-generate/sass/_custom.scss */
+  .comment {
+    width: 100%;
+  }
+
+  /* line 63, css-generate/sass/_custom.scss */
+  #handler-vertical {
+    width: 0px;
+  }
+
+  /* line 67, css-generate/sass/_custom.scss */
+  .background {
+    width: 0px;
+  }
+}
+/*----------------------  (> 481px) ---------------------*/
+@media only screen and (min-width: 481px) {
+  /* line 75, css-generate/sass/_custom.scss */
+  .code {
+    margin-left: 200px;
+  }
+
+  /* line 79, css-generate/sass/_custom.scss */
+  .comment {
+    width: 160px;
+  }
+
+  /* line 83, css-generate/sass/_custom.scss */
+  #handler-vertical {
+    width: 200px;
+  }
+
+  /* line 87, css-generate/sass/_custom.scss */
+  .background {
+    width: 200px;
+  }
+}
+/*---------------------- (> 1025px) ---------------------*/
+@media only screen and (min-width: 1025px) {
+  /* line 94, css-generate/sass/_custom.scss */
+  .code {
+    margin-left: 450px;
+  }
+
+  /* line 98, css-generate/sass/_custom.scss */
+  .comment {
+    width: 410px;
+  }
+
+  /* line 102, css-generate/sass/_custom.scss */
+  #handler-vertical {
+    width: 450px;
+  }
+
+  /* line 106, css-generate/sass/_custom.scss */
+  .background {
+    width: 450px;
+  }
+}
+/* line 13, css-generate/sass/tinning.scss */
+body {
+  width: 400px;
+  height: 500px;
+}
+
+/* line 18, css-generate/sass/tinning.scss */
+ul, li {
+  list-style-type: none;
+}
+
+/* line 22, css-generate/sass/tinning.scss */
+#top-bar {
+  position: fixed;
+  top: 0px;
+  background-color: #fff;
+  display: inline-block;
+  width: 400px;
+  padding: 10px 0px;
+}
+/* line 29, css-generate/sass/tinning.scss */
+#top-bar .item {
+  float: left;
+}
+/* line 32, css-generate/sass/tinning.scss */
+#top-bar .logo {
+  margin-left: 10px;
+  width: 80px;
+}
+/* line 36, css-generate/sass/tinning.scss */
+#top-bar .options-btn {
+  width: 220px;
+  text-align: center;
+}
+/* line 40, css-generate/sass/tinning.scss */
+#top-bar .tin-btn {
+  text-align: right;
+  width: 80px;
+  margin-right: 10px;
+}
+
+/* line 46, css-generate/sass/tinning.scss */
+.count {
+  height: 24px;
+  width: 24px;
+  font-size: 11px;
+  color: #fff;
+  background-color: #C0392B;
+  border: 1px solid #C0392B;
+  border-radius: 15px;
+  vertical-align: middle;
+  text-align: center;
+}
+
+/* line 57, css-generate/sass/tinning.scss */
+#tab-collection-grid {
+  margin-top: 40px;
+}
+/* line 59, css-generate/sass/tinning.scss */
+#tab-collection-grid > ul {
+  margin: 0px 10px 0px 0px;
+  padding: 0px;
+  clear: both;
+}
+/* line 63, css-generate/sass/tinning.scss */
+#tab-collection-grid > ul > li {
+  padding: 10px 0px 10px 10px;
+  color: #000;
+  border-bottom: 1px solid #cccccc;
+}
+/* line 67, css-generate/sass/tinning.scss */
+#tab-collection-grid > ul > li .tab-collection-grid-item {
+  width: 100%;
+  display: inline-block;
+}
+/* line 70, css-generate/sass/tinning.scss */
+#tab-collection-grid > ul > li .tab-collection-grid-item input {
+  float: left;
+}
+/* line 73, css-generate/sass/tinning.scss */
+#tab-collection-grid > ul > li .tab-collection-grid-item .icon-pattern {
+  width: 300px;
+  float: left;
+  display: inline;
+  margin-left: 10px;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+/* line 80, css-generate/sass/tinning.scss */
+#tab-collection-grid > ul > li .tab-collection-grid-item .icon-pattern img {
+  margin: 0px 2px;
+}
+/* line 84, css-generate/sass/tinning.scss */
+#tab-collection-grid > ul > li .tab-collection-grid-item .icon-open {
+  width: 20px;
+  float: right;
+  font-size: 16px;
+}
+
+/* line 93, css-generate/sass/tinning.scss */
+#tab-collection-list {
+  margin-top: 40px;
+}
+/* line 95, css-generate/sass/tinning.scss */
+#tab-collection-list > ul {
+  padding: 0px;
+}
+/* line 97, css-generate/sass/tinning.scss */
+#tab-collection-list > ul > li {
+  padding: 20px 0px 20px 10px;
+  font-size: 18px;
+  color: #000;
+  border-bottom: 1px solid #cccccc;
+}
+/* line 102, css-generate/sass/tinning.scss */
+#tab-collection-list > ul > li .tab-collection-list-item {
+  width: 100%;
+  display: inline-block;
+}
+/* line 105, css-generate/sass/tinning.scss */
+#tab-collection-list > ul > li .tab-collection-list-item input {
+  float: left;
+}
+/* line 108, css-generate/sass/tinning.scss */
+#tab-collection-list > ul > li .tab-collection-list-item ul {
+  float: left;
+  padding-left: 10px;
+}
+/* line 111, css-generate/sass/tinning.scss */
+#tab-collection-list > ul > li .tab-collection-list-item ul li {
+  padding-bottom: 10px;
+}
+/* line 113, css-generate/sass/tinning.scss */
+#tab-collection-list > ul > li .tab-collection-list-item ul li img {
+  vertical-align: middle;
+  margin-right: 5px;
+}
