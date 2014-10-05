@@ -1,7 +1,7 @@
 .settings
 .sass-cache
 .gist-cache
-node_modules
 .jshintrc
 .project
 build.gradle
+css-generate
