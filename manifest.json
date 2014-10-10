@@ -9,8 +9,24 @@
     "default_icon": "icon.png",
     "default_popup": "popup.html"
   },
+  "background": {
+    "scripts": ["tinning.js", "eventPage.js"],
+    "persistent": false
+  },
   "permissions": [
     "tabs",
     "bookmarks"
-  ]
+  ],
+  "content_scripts":[
+    {
+       "matches":[
+          "*://*/*"
+       ],
+       "js":[
+          "tinning.js"
+       ],
+       "run_at": "document_start"
+    }
+  ],
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
 }
