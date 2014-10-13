@@ -13,6 +13,7 @@
 
     <script src="./libs/jquery-2.0.3.js"></script>
     <script src="./libs/handlebars-v2.0.0.js"></script>
+    <script src="storage.js"></script>
     <script src="tinning.js"></script>
     <script src="popup.js"></script>
   </head>
@@ -51,10 +52,37 @@
         </li>
         {{/each}}
       </ul>
-    </script>  
+    </script>
+    <div class="popover bottom">
+      <div class="popover-header">Options</div>
+      <div class="popover-detail">
+        <div id="display-mode" class="row">
+          <div class="radio-button">
+            <div class="radio-item">
+              <div class="radio-slider"></div>
+              <span class="radio-label">Grid</span>
+            </div>
+            <div class="radio-item">
+                <span class="radio-label">List</span>
+            </div>
+          </div>
+        </div>
+        <div id="display" class="row">
+          <div class="radio-button">
+            <div class="radio-item">
+              <div class="radio-slider radio-slider-move"></div>
+              <span class="radio-label"><img src="res/twitter.png"></span>
+            </div>
+            <div class="radio-item">
+                <span class="radio-label"><img src="res/facebook.png"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <div id="top-bar">
       <div class="item logo">Tinning</div>
-      <div class="item options-btn">Expand / Collapse</div>
+      <div class="item options-btn"><img id="option-arrow" width="24" src="res/arrow-down.png"></div>
       <button id="tin-tabs" class="item tin-btn">Tin</button>
     </div>
     <div id="tab-collection-grid"></div>

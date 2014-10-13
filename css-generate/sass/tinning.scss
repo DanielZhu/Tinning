@@ -6,6 +6,8 @@
 // @import "compass/reset";
 
 @import "custom";
+@import "popover";
+@import "radio_button";
 
 $top-bar-margin: 10px;
 $popup-width: 400px;
@@ -17,6 +19,12 @@ body {
 
 ul, li{
     list-style-type: none;
+}
+
+.row {
+  width: 100%;
+  padding: 5px 0px;
+  clear: both;
 }
 
 #top-bar {

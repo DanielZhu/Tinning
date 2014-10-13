@@ -121,18 +121,129 @@ body {
     width: 450px;
   }
 }
-/* line 13, css-generate/sass/tinning.scss */
+/* line 1, css-generate/sass/_popover.scss */
+.row {
+  width: 100%;
+  padding: 5px 0px;
+  clear: both;
+}
+
+/* line 6, css-generate/sass/_popover.scss */
+.popover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1060;
+  display: none;
+  max-width: 276px;
+  min-width: 100px;
+  min-height: 10px;
+  padding: 1px;
+  text-align: left;
+  white-space: normal;
+  background-color: #fff;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  border: 1px solid #ccc;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+  -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+/* line 26, css-generate/sass/_popover.scss */
+.popover .popover-header {
+  padding: 5px 8px;
+  font-size: 18px;
+  color: #9BCD33;
+  border-bottom: 1px solid #9BCD33;
+}
+/* line 32, css-generate/sass/_popover.scss */
+.popover .popover-detail {
+  padding: 5px 8px;
+  font-size: 14px;
+}
+
+/* line 37, css-generate/sass/_popover.scss */
+.arrow-rotate {
+  -webkit-transform: rotate(180deg);
+}
+
+/* line 40, css-generate/sass/_popover.scss */
+#arrowDnow {
+  -webkit-transition: 0.2s ease-in-out;
+}
+
+/* Welcome to Compass.
+ * In this file you should write your main styles. (or centralize your imports)
+ * Import this file using the following HTML or equivalent:
+ * <link href="/stylesheets/style.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
+/* line 6, css-generate/sass/_radio_button.scss */
+.radio-button {
+  display: inline-block;
+  background: #9BCD33;
+  padding: 1px;
+  border-radius: 5px;
+  clear: both;
+}
+
+/* line 13, css-generate/sass/_radio_button.scss */
+.radio-label {
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  display: table-cell;
+  vertical-align: middle;
+  color: white;
+}
+
+/* line 20, css-generate/sass/_radio_button.scss */
+.radio-item {
+  position: relative;
+  float: left;
+  min-width: 30px;
+  padding: 5px;
+  text-align: center;
+  cursor: pointer;
+}
+
+/* line 28, css-generate/sass/_radio_button.scss */
+.radio-slider {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0%;
+  top: 0%;
+  z-index: 2;
+  text-align: center;
+  background-color: #f5f5f5;
+  -webkit-transition: 0.3s ease-in-out;
+  border-radius: 5px 0px 0px 5px;
+}
+
+/* line 40, css-generate/sass/_radio_button.scss */
+.radio-slider-move {
+  border-radius: 0px 5px 5px 0px;
+  -webkit-transform: translate(100%);
+}
+
+/* line 15, css-generate/sass/tinning.scss */
 body {
   width: 400px;
   height: 500px;
 }
 
-/* line 18, css-generate/sass/tinning.scss */
+/* line 20, css-generate/sass/tinning.scss */
 ul, li {
   list-style-type: none;
 }
 
-/* line 22, css-generate/sass/tinning.scss */
+/* line 24, css-generate/sass/tinning.scss */
+.row {
+  width: 100%;
+  padding: 5px 0px;
+  clear: both;
+}
+
+/* line 30, css-generate/sass/tinning.scss */
 #top-bar {
   position: fixed;
   top: 0px;
@@ -141,28 +252,28 @@ ul, li {
   width: 400px;
   padding: 10px 0px;
 }
-/* line 29, css-generate/sass/tinning.scss */
+/* line 37, css-generate/sass/tinning.scss */
 #top-bar .item {
   float: left;
 }
-/* line 32, css-generate/sass/tinning.scss */
+/* line 40, css-generate/sass/tinning.scss */
 #top-bar .logo {
   margin-left: 10px;
   width: 80px;
 }
-/* line 36, css-generate/sass/tinning.scss */
+/* line 44, css-generate/sass/tinning.scss */
 #top-bar .options-btn {
   width: 220px;
   text-align: center;
 }
-/* line 40, css-generate/sass/tinning.scss */
+/* line 48, css-generate/sass/tinning.scss */
 #top-bar .tin-btn {
   float: right;
   text-align: right;
   margin-right: 10px;
 }
 
-/* line 46, css-generate/sass/tinning.scss */
+/* line 54, css-generate/sass/tinning.scss */
 .count {
   height: 20px;
   width: 20px;
@@ -175,32 +286,32 @@ ul, li {
   text-align: center;
 }
 
-/* line 57, css-generate/sass/tinning.scss */
+/* line 65, css-generate/sass/tinning.scss */
 #tab-collection-grid {
   margin-top: 40px;
 }
-/* line 59, css-generate/sass/tinning.scss */
+/* line 67, css-generate/sass/tinning.scss */
 #tab-collection-grid > ul {
   margin: 0px 10px 0px 0px;
   padding: 0px;
   clear: both;
 }
-/* line 63, css-generate/sass/tinning.scss */
+/* line 71, css-generate/sass/tinning.scss */
 #tab-collection-grid > ul > li {
   padding: 10px 0px 10px 10px;
   color: #000;
   border-bottom: 1px solid #cccccc;
 }
-/* line 67, css-generate/sass/tinning.scss */
+/* line 75, css-generate/sass/tinning.scss */
 #tab-collection-grid > ul > li .tab-collection-grid-item {
   width: 100%;
   display: inline-block;
 }
-/* line 70, css-generate/sass/tinning.scss */
+/* line 78, css-generate/sass/tinning.scss */
 #tab-collection-grid > ul > li .tab-collection-grid-item input {
   float: left;
 }
-/* line 73, css-generate/sass/tinning.scss */
+/* line 81, css-generate/sass/tinning.scss */
 #tab-collection-grid > ul > li .tab-collection-grid-item .icon-pattern {
   width: 300px;
   float: left;
@@ -209,56 +320,56 @@ ul, li {
   overflow-x: auto;
   white-space: nowrap;
 }
-/* line 80, css-generate/sass/tinning.scss */
+/* line 88, css-generate/sass/tinning.scss */
 #tab-collection-grid > ul > li .tab-collection-grid-item .icon-pattern img {
   margin: 0px 2px;
 }
-/* line 84, css-generate/sass/tinning.scss */
+/* line 92, css-generate/sass/tinning.scss */
 #tab-collection-grid > ul > li .tab-collection-grid-item .icon-open {
   width: 20px;
   float: right;
   font-size: 16px;
 }
 
-/* line 93, css-generate/sass/tinning.scss */
+/* line 101, css-generate/sass/tinning.scss */
 #tab-collection-list {
   margin-top: 40px;
 }
-/* line 94, css-generate/sass/tinning.scss */
+/* line 102, css-generate/sass/tinning.scss */
 #tab-collection-list .count {
   margin-top: 5px;
 }
-/* line 98, css-generate/sass/tinning.scss */
+/* line 106, css-generate/sass/tinning.scss */
 #tab-collection-list > ul {
   padding: 0px;
 }
-/* line 100, css-generate/sass/tinning.scss */
+/* line 108, css-generate/sass/tinning.scss */
 #tab-collection-list > ul > li {
   padding: 5px 0px 5px 10px;
   font-size: 13px;
   color: #000;
   border-bottom: 1px solid #cccccc;
 }
-/* line 105, css-generate/sass/tinning.scss */
+/* line 113, css-generate/sass/tinning.scss */
 #tab-collection-list > ul > li .tab-collection-list-item {
   width: 100%;
   display: inline-block;
 }
-/* line 108, css-generate/sass/tinning.scss */
+/* line 116, css-generate/sass/tinning.scss */
 #tab-collection-list > ul > li .tab-collection-list-item input {
   float: left;
 }
-/* line 111, css-generate/sass/tinning.scss */
+/* line 119, css-generate/sass/tinning.scss */
 #tab-collection-list > ul > li .tab-collection-list-item ul {
   float: left;
   padding-left: 10px;
 }
-/* line 114, css-generate/sass/tinning.scss */
+/* line 122, css-generate/sass/tinning.scss */
 #tab-collection-list > ul > li .tab-collection-list-item ul li {
   padding-bottom: 5px;
   padding-top: 5px;
 }
-/* line 117, css-generate/sass/tinning.scss */
+/* line 125, css-generate/sass/tinning.scss */
 #tab-collection-list > ul > li .tab-collection-list-item ul li img {
   vertical-align: middle;
   margin-right: 5px;

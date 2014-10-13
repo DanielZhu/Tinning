@@ -12,7 +12,7 @@
 
 var tinning = {
    tinningFolderId: null,
-
+   configs: [],
 
   /**
    * Sends an XHR GET request to grab photos of lots and lots of kittens. The
@@ -114,22 +114,27 @@ var tinning = {
   },
 
   renderPopup: function (tinnedList) {
-    // chrome://favicon/
-    // Using jQuery to fetch the template
-    var gridTpl   =  $("#tab-collection-grid-tpl").html();
-    var listTpl   =  $("#tab-collection-list-tpl").html();
+    $('#tab-collection-grid').html("");
+    $('#tab-collection-list').html("");
+    var displayMode = storage.retrieveConfigByKey("display_mode");
+    if (displayMode === "Grid") {
+      // Using jQuery to fetch the template
+      var gridTpl   =  $("#tab-collection-grid-tpl").html();
 
-    // Precompile the template
-    var gridTemplate = Handlebars.compile(gridTpl);
-    var listTemplate = Handlebars.compile(listTpl);
+      // Precompile the template
+      var gridTemplate = Handlebars.compile(gridTpl);
+      
+      // Match the data
+      var gridHtml = gridTemplate(tinnedList);
 
-    // Match the data
-    var gridHtml = gridTemplate(tinnedList);
-    var listHtml = listTemplate(tinnedList);
-
-    // Render the html
-    $('#tab-collection-grid').html(gridHtml);
-    $('#tab-collection-list').html(listHtml);
+      // Render the html
+      $('#tab-collection-grid').html(gridHtml);
+    } else if (displayMode === "List") {
+      var listTpl   =  $("#tab-collection-list-tpl").html();
+      var listTemplate = Handlebars.compile(listTpl);
+      var listHtml = listTemplate(tinnedList);
+      $('#tab-collection-list').html(listHtml);
+    }
   },
 
   addTinningFolder: function () {
@@ -151,10 +156,43 @@ var tinning = {
     tinning.syncTinningFolder(false);
   },
 
+  onOptionClicked: function (element) {
+    var margin = 10;
+    // Popopver bottom
+    $("#option-arrow").toggleClass("arrow-rotate");
+    $(".popover.bottom").css("left", element.currentTarget.x - $(".popover.bottom").width() / 2);
+    $(".popover.bottom").css("top", element.currentTarget.y + element.currentTarget.height + margin);
+    $("#option-arrow").hasClass("arrow-rotate") ? $(".popover.bottom").fadeIn() : $(".popover.bottom").fadeOut();
+  },
+
+  syncConfig: function () {
+    this.configs = storage.iniConfigs();
+    
+    if (this.configs.display_mode === "grid") {
+      $("#display-mode .radio-slider").toggleClass("radio-slider-move", true);
+    } else if (this.configs.display_mode === "list") {
+      $("#display-mode .radio-slider").toggleClass("radio-slider-move", false);
+    }
+  },
+
   registerEvent: function () {
     $("#tin-tabs").click(function (e) {
       tinning.collectTabs();
     });
 
+    $("#option-arrow").click(function (element) {
+      tinning.onOptionClicked(element);
+    });
+
+    $("#display-mode .radio-item").click(function (element) {
+      var displayMode = $("#display-mode .radio-slider").hasClass("radio-slider-move");
+      $("#display-mode .radio-slider").toggleClass("radio-slider-move", !displayMode);
+      storage.setConfigValueByKey("display_mode", (!displayMode ? "Grid" : "List"));
+      tinning.fetchTinningFolderContent();
+    });
+
+    $("#display .radio-item").click(function (element) {
+      $("#display .radio-slider").toggleClass("radio-slider-move", !$("#display .radio-slider").hasClass("radio-slider-move"));
+    });
   }
 };
