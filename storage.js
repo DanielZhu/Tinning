@@ -1,15 +1,6 @@
-// tinning
-// {
-//    config : [
-//    
-//    ],
-//    bookmarks: [
-//    
-//    ]
-// }
 var storage = {
   configKey: "tinning_config",
-  configsArray: [{key: "display_mode", value: "grid"}, {key: "open_new_window", value: "true"}],
+  configsArray: [{key: "display_mode", value: "grid"}, {key: "close-tab-after-tin", value: true} ,{key: "open-tabs-in-new-window", value: false} ,{key: "send-usage-statistics", value: true}],
 
   iniConfigs: function () {
     var configs = JSON.parse(this.retrieveValueByKey(this.configKey));
