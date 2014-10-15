@@ -53,7 +53,7 @@ ul, li{
 }
 .count {
   height: 20px;
-  width: 20px;
+  // width: 20px;
   font-size: 10px;
   color: #fff;
   background-color: #C0392B;
@@ -62,16 +62,27 @@ ul, li{
   vertical-align: middle;
   text-align: center;
 }
-#tab-collection-grid {
-  margin-top: 40px;
-  > ul {
+.tab-collection-li {
+  &.hover {
+    background-color: #F2F2F2;
+    cursor: pointer;
+  }
+  color: #000;
+  border: 1px solid #cccccc;
+  background-color: #FFFFFF;
+  margin: 4px;
+  -webkit-box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+}
+#tab-collection {
+  margin-top: 50px;
+  .tab-collection-grid {
     margin: 0px 10px 0px 0px;
     padding: 0px;
     clear: both;
     > li {
       padding: 10px 0px 10px 10px;
-      color: #000;
-      border-bottom: 1px solid #cccccc;
+      @extend .tab-collection-li;
       .tab-collection-grid-item {
         width: 100%;
         display: inline-block;  
@@ -97,19 +108,14 @@ ul, li{
       }
     }
   }
-}
-#tab-collection-list {
-  .count {
-    margin-top: 5px;
-  }
-  margin-top: 40px;
-  > ul {
+  .tab-collection-list {
+    .count {
+      margin-top: 5px;
+    }
     padding: 0px;
     > li {
-      padding: 5px 0px 5px 10px;;
-      font-size: 13px;
-      color: #000;
-      border-bottom: 1px solid #cccccc;
+      padding: 5px 0px 5px 10px;
+      @extend .tab-collection-li;
       .tab-collection-list-item {
         width: 100%;
         display: inline-block;  
@@ -125,6 +131,12 @@ ul, li{
             img {
               vertical-align: middle;
               margin-right: 5px;
+            }
+            .title {
+              width: 300px;
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
             }
           }
         }

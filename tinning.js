@@ -8,11 +8,17 @@
  *
  * @type {string}
  */
-
+Array.prototype.removeAt = function (index) {
+  if (this.length > index) {
+    this.splice(index, 1);
+  }
+  return this;
+}
 
 var tinning = {
    tinningFolderId: null,
    configs: [],
+   tinnedList: [],
 
   /**
    * Sends an XHR GET request to grab photos of lots and lots of kittens. The
@@ -39,10 +45,13 @@ var tinning = {
     chrome.tabs.query(queryOption, this.tinningTabs);
   },
 
+  // Callback to tin tabs
   tinningTabs: function (tabs) {
-    // Create the folder to store the tabs for current window
     var now = new Date();
     var title = (now.getMonth() + 1) + "/" + now.getDate() + " " + now.getHours() + ":" + now.getMinutes();
+
+    // Create the folder to store the tabs for current window
+    // Give them the temporary name
     chrome.bookmarks.create({
         "parentId": tinning.tinningFolderId,
         "title": title + " " + tabs[0].title
@@ -55,9 +64,30 @@ var tinning = {
             "title": tab.title,
             "url": tab.url
           });
+
+          if (storage.retrieveConfigByKey("close-tab-after-tin")) {
+            chrome.tabs.remove(tab.id);
+          }
         };
       }
     );
+  },
+
+  unTinningTabs: function (dataIndex) {
+      var collectItem = tinning.tinnedList[dataIndex];
+      console.log(JSON.stringify(collectItem));
+
+      collectItem.item.forEach(function (tab) {
+        // TODO
+        if (storage.retrieveConfigByKey("open-tabs-in-new-window")) {
+          chrome.tabs.create({url: tab.url})
+        }
+      });
+
+      tinning.tinnedList.removeAt(dataIndex);
+
+      // Remove the related bookmarks
+      chrome.bookmarks.removeTree(collectItem.item.id);
   },
 
   // Sync
@@ -88,13 +118,15 @@ var tinning = {
   fetchTinningFolderContent: function () {
     var bookmarkTreeNodes = chrome.bookmarks.getSubTree(tinning.tinningFolderId,
       function(bookmarkTreeNodes) {
-        var tinnedList = [], tinnedListItem = [];
+        var tinnedListItem = [];
+        tinning.tinnedList = [];
         var tinningBookmarks = bookmarkTreeNodes[0].children;
         // Iterate Tinning folder
         for (var i = 0; i < tinningBookmarks.length; i++) {
           var tinned = tinningBookmarks[i];
           tinnedListItem = [];
           tinnedListItem.title = tinned.title;
+          tinnedListItem.id = tinned.id;
           if (tinned.children.length > 0) {
             // Iterate all the tinned item children
             for (var j = 0; j < tinned.children.length; j++) {
@@ -105,36 +137,43 @@ var tinning = {
               tinnedListItem.push(item);
             }
           }
-          tinnedList.push({'item': tinnedListItem});
+          tinning.tinnedList.push({'item': tinnedListItem});
         }
 
-        tinning.renderPopup({'tinnedList': tinnedList});
+        tinning.renderPopup();
       }
     )
   },
 
-  renderPopup: function (tinnedList) {
-    $('#tab-collection-grid').html("");
-    $('#tab-collection-list').html("");
+  renderPopup: function () {
+    $('#tab-collection').html("");
     var displayMode = storage.retrieveConfigByKey("display_mode");
     if (displayMode === "Grid") {
       // Using jQuery to fetch the template
-      var gridTpl   =  $("#tab-collection-grid-tpl").html();
-
-      // Precompile the template
-      var gridTemplate = Handlebars.compile(gridTpl);
-      
-      // Match the data
-      var gridHtml = gridTemplate(tinnedList);
-
-      // Render the html
-      $('#tab-collection-grid').html(gridHtml);
+      var tpl   =  $("#tab-collection-grid-tpl").html();
     } else if (displayMode === "List") {
-      var listTpl   =  $("#tab-collection-list-tpl").html();
-      var listTemplate = Handlebars.compile(listTpl);
-      var listHtml = listTemplate(tinnedList);
-      $('#tab-collection-list').html(listHtml);
+      var tpl   =  $("#tab-collection-list-tpl").html();
     }
+    // Precompile the template
+    var template = Handlebars.compile(tpl);
+    
+    // Match the data
+    var html = template({'tinnedList': tinning.tinnedList});
+
+    // Render the html
+    $('#tab-collection').html(html);
+
+    $("#tab-collection > ul > li")
+    .mouseenter(function () {
+      $(this).addClass("hover");
+    })
+    .mouseleave(function () {
+      $(this).removeClass("hover");
+    })
+    .click(function (e) {
+      var dataIndex = $(this).attr("dataIndex");
+      tinning.unTinningTabs(dataIndex);
+    });
   },
 
   addTinningFolder: function () {
