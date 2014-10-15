@@ -19,9 +19,9 @@
   </head>
   <body>
     <script id="tab-collection-grid-tpl" type="text/x-handlebars-template">  
-      <ul>
+      <ul class="tab-collection-grid">
         {{#each tinnedList }}
-        <li>
+        <li dataindex="{{@index}}">
           <div class="tab-collection-grid-item">
             <input type="button" class="count" value="{{item.length}}"></input>
             <div class="icon-pattern">
@@ -29,22 +29,22 @@
                 <img src="chrome://favicon/{{url}}" title="{{title}}">
               {{/each}}
             </div>
-            <img class="icon-open" src="res/open.png">
+            <!-- <img class="icon-open" src="res/open.png"> -->
           </div>
         </li>
         {{/each}}
       </ul>
     </script>  
     <script id="tab-collection-list-tpl" type="text/x-handlebars-template">  
-      <ul>
+      <ul class="tab-collection-list">
         {{#each tinnedList }}
-        <li>
+        <li dataindex="{{@index}}">
           <div class="tab-collection-list-item">
             <input type="button" class="count" value="{{item.length}}"></input>
             <ul>
               {{#each this.item }}
                 <li>
-                  <div><img src="chrome://favicon/{{url}}" title="{{title}}">{{title}}</div>
+                  <div class="title"><img src="chrome://favicon/{{url}}" title="{{title}}">{{title}}</div>
                 </li>
               {{/each}}
             </ul>
@@ -85,8 +85,7 @@
       <div class="item options-btn"><img id="option-arrow" width="24" src="res/arrow-down.png"></div>
       <button id="tin-tabs" class="item tin-btn">Tin</button>
     </div>
-    <div id="tab-collection-grid"></div>
-    <div id="tab-collection-list"></div>
+    <div id="tab-collection"></div>
 
     <footer>
       <a href="credits.html" target="_blank">Credits</a>
