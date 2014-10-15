@@ -13,6 +13,7 @@
     "scripts": ["tinning.js", "eventPage.js"],
     "persistent": false
   },
+  "options_page": "options.html",
   "permissions": [
     "tabs",
     "bookmarks"

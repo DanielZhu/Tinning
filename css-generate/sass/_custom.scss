@@ -31,7 +31,6 @@ body {
   color: #30404f;
   margin: 0; 
   padding: 0;
-  height:100%;
 }
 .container {
   position:relative;
@@ -43,12 +42,12 @@ body {
     -webkit-padding-start: 0px;
     list-style: none;
     margin: 0;
-    &.row {
-      display: inline;
-      width: 100%;
-      display: inline-block;
-    }
   }
+}
+.row {
+  min-height: 60px;
+  width: 100%;
+  line-height: 60px;
 }
 
 /*---------------------- Low resolutions (> 320px) ---------------------*/
