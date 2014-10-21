@@ -1,30 +1,20 @@
 /*---------------------- Font ---------------------*/
 @font-face {
-  font-family: "Anonymous Pro";
-  src: url("../resources/fonts/Anonymous Pro regular.ttf");
-}
-
-@font-face {
-  font-family: "Anonymous Pro Italic";
-  src: url("../resources/fonts/Anonymous Pro italic.ttf");
-}
-
-@font-face {
   font-family: "Source Code Pro";
-  src: url("../resources/fonts/Source Code Pro regular.ttf");
+  src: url("res/fonts/Source Code Pro regular.ttf");
 }
 
 @font-face {
   font-family: "Source Code Pro 500";
-  src: url("../resources/fonts/Source Code Pro 500.ttf");
+  src: url("res/fonts/Source Code Pro 500.ttf");
 }
 
-/* line 26, css-generate/sass/_custom.scss */
+/* line 15, css-generate/sass/_custom.scss */
 html {
   height: 100%;
 }
 
-/* line 28, css-generate/sass/_custom.scss */
+/* line 17, css-generate/sass/_custom.scss */
 body {
   font-family: "aller-light";
   font-size: 14px;
@@ -33,23 +23,23 @@ body {
   padding: 0;
 }
 
-/* line 35, css-generate/sass/_custom.scss */
+/* line 24, css-generate/sass/_custom.scss */
 .container {
   position: relative;
   width: 100%;
 }
-/* line 38, css-generate/sass/_custom.scss */
+/* line 27, css-generate/sass/_custom.scss */
 .container > div {
   clear: both;
 }
-/* line 41, css-generate/sass/_custom.scss */
+/* line 30, css-generate/sass/_custom.scss */
 .container ul {
   -webkit-padding-start: 0px;
   list-style: none;
   margin: 0;
 }
 
-/* line 47, css-generate/sass/_custom.scss */
+/* line 36, css-generate/sass/_custom.scss */
 .row {
   min-height: 60px;
   width: 100%;
@@ -58,61 +48,61 @@ body {
 
 /*---------------------- Low resolutions (> 320px) ---------------------*/
 @media only screen and (min-width: 320px) {
-  /* line 59, css-generate/sass/_custom.scss */
+  /* line 48, css-generate/sass/_custom.scss */
   .comment {
     width: 100%;
   }
 
-  /* line 62, css-generate/sass/_custom.scss */
+  /* line 51, css-generate/sass/_custom.scss */
   #handler-vertical {
     width: 0px;
   }
 
-  /* line 66, css-generate/sass/_custom.scss */
+  /* line 55, css-generate/sass/_custom.scss */
   .background {
     width: 0px;
   }
 }
 /*----------------------  (> 481px) ---------------------*/
 @media only screen and (min-width: 481px) {
-  /* line 74, css-generate/sass/_custom.scss */
+  /* line 63, css-generate/sass/_custom.scss */
   .code {
     margin-left: 200px;
   }
 
-  /* line 78, css-generate/sass/_custom.scss */
+  /* line 67, css-generate/sass/_custom.scss */
   .comment {
     width: 160px;
   }
 
-  /* line 82, css-generate/sass/_custom.scss */
+  /* line 71, css-generate/sass/_custom.scss */
   #handler-vertical {
     width: 200px;
   }
 
-  /* line 86, css-generate/sass/_custom.scss */
+  /* line 75, css-generate/sass/_custom.scss */
   .background {
     width: 200px;
   }
 }
 /*---------------------- (> 1025px) ---------------------*/
 @media only screen and (min-width: 1025px) {
-  /* line 93, css-generate/sass/_custom.scss */
+  /* line 82, css-generate/sass/_custom.scss */
   .code {
     margin-left: 450px;
   }
 
-  /* line 97, css-generate/sass/_custom.scss */
+  /* line 86, css-generate/sass/_custom.scss */
   .comment {
     width: 410px;
   }
 
-  /* line 101, css-generate/sass/_custom.scss */
+  /* line 90, css-generate/sass/_custom.scss */
   #handler-vertical {
     width: 450px;
   }
 
-  /* line 105, css-generate/sass/_custom.scss */
+  /* line 94, css-generate/sass/_custom.scss */
   .background {
     width: 450px;
   }
@@ -185,33 +175,39 @@ body {
 
 /* line 12, css-generate/sass/options.scss */
 .header {
+  position: relative;
   height: 50px;
   margin: 20px 0px;
 }
-/* line 15, css-generate/sass/options.scss */
+/* line 16, css-generate/sass/options.scss */
 .header .title {
   margin-left: 20px;
   font-size: 36px;
+  vertical-align: middle;
+}
+/* line 21, css-generate/sass/options.scss */
+.header img {
+  vertical-align: middle;
 }
 
-/* line 21, css-generate/sass/options.scss */
+/* line 26, css-generate/sass/options.scss */
 .panel {
   background-color: #fff;
   border: 1px solid #9BCD33;
   border-radius: 10px;
   padding: 20px 0px;
 }
-/* line 26, css-generate/sass/options.scss */
+/* line 31, css-generate/sass/options.scss */
 .panel .attr-label {
   float: left;
-  width: 40%;
+  width: 45%;
   text-align: right;
   line-height: 60px;
 }
-/* line 32, css-generate/sass/options.scss */
+/* line 37, css-generate/sass/options.scss */
 .panel .attr-value {
   float: right;
-  width: 40%;
+  width: 45%;
   text-align: left;
   line-height: 60px;
 }
