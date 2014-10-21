@@ -8,17 +8,28 @@
 @import "custom";
 @import "popover";
 @import "radio_button";
+@import "compass/css3/transform";
+@import "compass/css3/user-interface";
 
 $top-bar-margin: 10px;
 $popup-width: 400px;
 
-body {
-  width: $popup-width;
-  height: 500px;
+html {
+  -ms-touch-action: none;
 }
 
-ul, li{
-    list-style-type: none;
+body,ul,li {
+  padding: 0;
+  margin: 0;
+  border: 0;
+}
+
+body {
+  font-size: 12px;
+  font-family: ubuntu, helvetica, arial;
+  width: $popup-width;
+  height: 500px;
+  // overflow: hidden; /* this is important to prevent the whole page to bounce */
 }
 
 .row {
@@ -27,40 +38,102 @@ ul, li{
   clear: both;
 }
 
+textarea, select {
+  -webkit-font-smoothing: antialiased;
+  background-color: transparent;
+  font-family: 'Lato', sans-serif;
+  border: 0;
+  width: 100%;
+  padding: 2px 4px;
+  display: block;
+  box-sizing: border-box;
+  box-shadow: 0 1px 0 0 #D7D7D7;
+  resize: none;
+  height: auto;
+  color: #5B5B5B;
+  outline:none;
+  padding-bottom: 5px;
+  padding-top: 5px;  
+}
+
+.title-input {
+  text-align: left;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-left: 5px;
+}
+
+textarea, select {
+  margin: 0;
+  transition: all 300ms ease;
+}
+
+textarea:focus, select:focus {
+  background-color: #fff;
+  box-shadow: 0 0 5px rgba(43, 136, 217, 0.5);
+  z-index: 1;
+}
+.tinning-watermark {
+  position: absolute;  
+  z-index: 0;  
+  top: 70px;  
+  width: 100%;  
+  height: 100%;  
+  overflow: hidden;  
+  text-align: center;
+  opacity: 0.5;
+  .brand {
+    font-size: 20px;
+    margin-top: 20px;
+    font-family: "Source Code Pro";
+  }
+}
 #top-bar {
   position: fixed;
   top: 0px;
   background-color: #fff;
-	display: inline-block;
+  display: inline-block;
   width: $popup-width;
-  padding: 10px 0px;
+  line-height: 50px;
+  div {
+    line-height: 50px;
+  }
   .item {
     float: left;
   }
   .logo {
     margin-left: $top-bar-margin;
     width: 80px;
+    color: #ccc;
+    font-size: 20px;
+    font-family: "Source Code Pro";
   }
   .options-btn {
     width: $popup-width - 80 * 2 - $top-bar-margin * 2;
     text-align: center;
+    #option-arrow {
+      margin-top: 10px;
+    }
   }
-  .tin-btn {
-    float: right;
+  .top-bar-right {
+    width: 80px;
     text-align: right;
-    margin-right: $top-bar-margin;
+    margin: 10px 10px 0px 0px;
   }
 }
 .count {
-  height: 20px;
-  // width: 20px;
-  font-size: 10px;
+  min-height: 16px;
+  min-width: 16px;
+  font-size: 11px;
   color: #fff;
   background-color: #C0392B;
   border: 1px solid #C0392B;
   border-radius: 10px;
   vertical-align: middle;
   text-align: center;
+  padding: 2px 5px;
 }
 .tab-collection-li {
   &.hover {
@@ -70,77 +143,134 @@ ul, li{
   color: #000;
   border: 1px solid #cccccc;
   background-color: #FFFFFF;
-  margin: 4px;
+  margin: 10px 4px;
   -webkit-box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
   border-radius: 10px;
 }
-#tab-collection {
-  margin-top: 50px;
-  .tab-collection-grid {
-    margin: 0px 10px 0px 0px;
-    padding: 0px;
-    clear: both;
-    > li {
-      padding: 10px 0px 10px 10px;
-      @extend .tab-collection-li;
-      .tab-collection-grid-item {
-        width: 100%;
-        display: inline-block;  
-        input {
-          float: left;
-        }
-        .icon-pattern {
-          width: 300px;
-          float: left;
-          display:inline;
-          margin-left: 10px;
-          overflow-x: auto;
-          white-space: nowrap;
+.tabs-count {
+  position: absolute;
+  max-width: 35px;
+  margin-top: 5px;
+}
+.tabs-tools {
+  position: relative;
+  float: right;
+  display: none;
+  z-index: 10;
+  &.rotate-loading {
+    transform: rotate(360deg);
+    transition: all 500ms ease;
+  }
+}
+.tab-collection-grid {
+  padding: 0px;
+  clear: both;
+  > li {
+    padding: 8px;
+    @extend .tab-collection-li;
+    .tab-collection-grid-item {
+      width: 100%;
+      display: inline-block;
+      input {
+        float: left;
+      }
+      .tabs-tools {
+        margin-right: 5px;
+      }
+      .content {
+        float: left;
+        min-height: 50px;
+        margin-left: 35px;
+        width: 310px;
+        margin-top: 5px;
+        .icon-wrapper {
+          position: relative;
+          width: 100%;
+          margin-left: 5px;
+          padding: 10px 0px;
           img {
             margin: 0px 2px;
           }
-        }
-        .icon-open {
-          width: 20px;
-          float: right;
-          font-size: 16px;
-        }
-      }
-    }
-  }
-  .tab-collection-list {
-    .count {
-      margin-top: 5px;
-    }
-    padding: 0px;
-    > li {
-      padding: 5px 0px 5px 10px;
-      @extend .tab-collection-li;
-      .tab-collection-list-item {
-        width: 100%;
-        display: inline-block;  
-        input {
-          float: left;
-        }
-        ul {
-          float: left;
-          padding-left: 10px;
-          li {
-            padding-bottom: 5px;
-            padding-top: 5px;
-            img {
-              vertical-align: middle;
-              margin-right: 5px;
-            }
-            .title {
-              width: 300px;
-              white-space: nowrap;
-              overflow: hidden;
-              text-overflow: ellipsis;
+          ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            text-align: center;
+            width: 100%;
+            height: 100%;
+            li {
+              display: block;
+              float: left;
+              font-size: 14px;
+              padding: 0px 2px;
             }
           }
         }
       }
     }
   }
+}
+.tab-collection-list {
+  .count {
+    margin-top: 5px;
+  }
+  padding: 0px;
+  > li {
+    padding: 8px;
+    @extend .tab-collection-li;
+    .tab-collection-list-item {
+      width: 100%;
+      display: inline-block;
+      input {
+        float: left;
+      }
+      .tabs-tools {
+        margin: 3px 5px 0px 0px;
+      }
+      ul {
+        float: left;
+        margin-left: 35px;
+        width: 310px;
+        li {
+          padding-bottom: 5px;
+          padding-top: 5px;
+          list-style: none;
+          img {
+            vertical-align: middle;
+            margin-right: 5px;
+          }
+          .title {
+            width: 300px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+        }
+      }
+    }
+  }
+}
+#wrapper {
+  position: relative;
+  z-index: 1;
+  top: 40px;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  display: none;
+  & #scroller {
+    position: absolute;
+    z-index: 1;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    width: 100%;
+    @include transform(translateZ(0));
+    @include user-select(none);
+    -webkit-touch-callout: none;
+    -webkit-text-size-adjust: none;
+    text-size-adjust: none;
+  }
+}
+.fade-in-wrapper {
+  margin: 0;
+  transition: all 300ms ease;
 }

@@ -2,25 +2,14 @@
 
 
 /*---------------------- Font ---------------------*/
-
-@font-face {
-    font-family: "Anonymous Pro";
-    src: url("../resources/fonts/Anonymous Pro regular.ttf");
-}
-
-@font-face {
-    font-family: "Anonymous Pro Italic";
-    src: url("../resources/fonts/Anonymous Pro italic.ttf");
-}
-
 @font-face {
     font-family: "Source Code Pro";
-    src: url("../resources/fonts/Source Code Pro regular.ttf");
+    src: url("res/fonts/Source Code Pro regular.ttf");
 }
 
 @font-face {
     font-family: "Source Code Pro 500";
-    src: url("../resources/fonts/Source Code Pro 500.ttf");
+    src: url("res/fonts/Source Code Pro 500.ttf");
 }
 
 html { height: 100%; }

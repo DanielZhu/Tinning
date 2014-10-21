@@ -4,31 +4,21 @@
  * <link href="/stylesheets/style.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
 /*---------------------- Font ---------------------*/
 @font-face {
-  font-family: "Anonymous Pro";
-  src: url("../resources/fonts/Anonymous Pro regular.ttf");
-}
-
-@font-face {
-  font-family: "Anonymous Pro Italic";
-  src: url("../resources/fonts/Anonymous Pro italic.ttf");
-}
-
-@font-face {
   font-family: "Source Code Pro";
-  src: url("../resources/fonts/Source Code Pro regular.ttf");
+  src: url("res/fonts/Source Code Pro regular.ttf");
 }
 
 @font-face {
   font-family: "Source Code Pro 500";
-  src: url("../resources/fonts/Source Code Pro 500.ttf");
+  src: url("res/fonts/Source Code Pro 500.ttf");
 }
 
-/* line 26, css-generate/sass/_custom.scss */
+/* line 15, css-generate/sass/_custom.scss */
 html {
   height: 100%;
 }
 
-/* line 28, css-generate/sass/_custom.scss */
+/* line 17, css-generate/sass/_custom.scss */
 body {
   font-family: "aller-light";
   font-size: 14px;
@@ -37,23 +27,23 @@ body {
   padding: 0;
 }
 
-/* line 35, css-generate/sass/_custom.scss */
+/* line 24, css-generate/sass/_custom.scss */
 .container {
   position: relative;
   width: 100%;
 }
-/* line 38, css-generate/sass/_custom.scss */
+/* line 27, css-generate/sass/_custom.scss */
 .container > div {
   clear: both;
 }
-/* line 41, css-generate/sass/_custom.scss */
+/* line 30, css-generate/sass/_custom.scss */
 .container ul {
   -webkit-padding-start: 0px;
   list-style: none;
   margin: 0;
 }
 
-/* line 47, css-generate/sass/_custom.scss */
+/* line 36, css-generate/sass/_custom.scss */
 .row {
   min-height: 60px;
   width: 100%;
@@ -62,61 +52,61 @@ body {
 
 /*---------------------- Low resolutions (> 320px) ---------------------*/
 @media only screen and (min-width: 320px) {
-  /* line 59, css-generate/sass/_custom.scss */
+  /* line 48, css-generate/sass/_custom.scss */
   .comment {
     width: 100%;
   }
 
-  /* line 62, css-generate/sass/_custom.scss */
+  /* line 51, css-generate/sass/_custom.scss */
   #handler-vertical {
     width: 0px;
   }
 
-  /* line 66, css-generate/sass/_custom.scss */
+  /* line 55, css-generate/sass/_custom.scss */
   .background {
     width: 0px;
   }
 }
 /*----------------------  (> 481px) ---------------------*/
 @media only screen and (min-width: 481px) {
-  /* line 74, css-generate/sass/_custom.scss */
+  /* line 63, css-generate/sass/_custom.scss */
   .code {
     margin-left: 200px;
   }
 
-  /* line 78, css-generate/sass/_custom.scss */
+  /* line 67, css-generate/sass/_custom.scss */
   .comment {
     width: 160px;
   }
 
-  /* line 82, css-generate/sass/_custom.scss */
+  /* line 71, css-generate/sass/_custom.scss */
   #handler-vertical {
     width: 200px;
   }
 
-  /* line 86, css-generate/sass/_custom.scss */
+  /* line 75, css-generate/sass/_custom.scss */
   .background {
     width: 200px;
   }
 }
 /*---------------------- (> 1025px) ---------------------*/
 @media only screen and (min-width: 1025px) {
-  /* line 93, css-generate/sass/_custom.scss */
+  /* line 82, css-generate/sass/_custom.scss */
   .code {
     margin-left: 450px;
   }
 
-  /* line 97, css-generate/sass/_custom.scss */
+  /* line 86, css-generate/sass/_custom.scss */
   .comment {
     width: 410px;
   }
 
-  /* line 101, css-generate/sass/_custom.scss */
+  /* line 90, css-generate/sass/_custom.scss */
   #handler-vertical {
     width: 450px;
   }
 
-  /* line 105, css-generate/sass/_custom.scss */
+  /* line 94, css-generate/sass/_custom.scss */
   .background {
     width: 450px;
   }
@@ -230,163 +220,322 @@ body {
   -webkit-transform: translate(100%);
 }
 
-/* line 15, css-generate/sass/tinning.scss */
+/* line 17, css-generate/sass/tinning.scss */
+html {
+  -ms-touch-action: none;
+}
+
+/* line 21, css-generate/sass/tinning.scss */
+body, ul, li {
+  padding: 0;
+  margin: 0;
+  border: 0;
+}
+
+/* line 27, css-generate/sass/tinning.scss */
 body {
+  font-size: 12px;
+  font-family: ubuntu, helvetica, arial;
   width: 400px;
   height: 500px;
 }
 
-/* line 20, css-generate/sass/tinning.scss */
-ul, li {
-  list-style-type: none;
-}
-
-/* line 24, css-generate/sass/tinning.scss */
+/* line 35, css-generate/sass/tinning.scss */
 .row {
   width: 100%;
   padding: 5px 0px;
   clear: both;
 }
 
-/* line 30, css-generate/sass/tinning.scss */
+/* line 41, css-generate/sass/tinning.scss */
+textarea, select {
+  -webkit-font-smoothing: antialiased;
+  background-color: transparent;
+  font-family: 'Lato', sans-serif;
+  border: 0;
+  width: 100%;
+  padding: 2px 4px;
+  display: block;
+  box-sizing: border-box;
+  box-shadow: 0 1px 0 0 #D7D7D7;
+  resize: none;
+  height: auto;
+  color: #5B5B5B;
+  outline: none;
+  padding-bottom: 5px;
+  padding-top: 5px;
+}
+
+/* line 59, css-generate/sass/tinning.scss */
+.title-input {
+  text-align: left;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-left: 5px;
+}
+
+/* line 68, css-generate/sass/tinning.scss */
+textarea, select {
+  margin: 0;
+  transition: all 300ms ease;
+}
+
+/* line 73, css-generate/sass/tinning.scss */
+textarea:focus, select:focus {
+  background-color: #fff;
+  box-shadow: 0 0 5px rgba(43, 136, 217, 0.5);
+  z-index: 1;
+}
+
+/* line 78, css-generate/sass/tinning.scss */
+.tinning-watermark {
+  position: absolute;
+  z-index: 0;
+  top: 70px;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  text-align: center;
+  opacity: 0.5;
+}
+/* line 87, css-generate/sass/tinning.scss */
+.tinning-watermark .brand {
+  font-size: 20px;
+  margin-top: 20px;
+  font-family: "Source Code Pro";
+}
+
+/* line 93, css-generate/sass/tinning.scss */
 #top-bar {
   position: fixed;
   top: 0px;
   background-color: #fff;
   display: inline-block;
   width: 400px;
-  padding: 10px 0px;
+  line-height: 50px;
 }
-/* line 37, css-generate/sass/tinning.scss */
+/* line 100, css-generate/sass/tinning.scss */
+#top-bar div {
+  line-height: 50px;
+}
+/* line 103, css-generate/sass/tinning.scss */
 #top-bar .item {
   float: left;
 }
-/* line 40, css-generate/sass/tinning.scss */
+/* line 106, css-generate/sass/tinning.scss */
 #top-bar .logo {
   margin-left: 10px;
   width: 80px;
+  color: #ccc;
+  font-size: 20px;
+  font-family: "Source Code Pro";
 }
-/* line 44, css-generate/sass/tinning.scss */
+/* line 113, css-generate/sass/tinning.scss */
 #top-bar .options-btn {
   width: 220px;
   text-align: center;
 }
-/* line 48, css-generate/sass/tinning.scss */
-#top-bar .tin-btn {
-  float: right;
+/* line 116, css-generate/sass/tinning.scss */
+#top-bar .options-btn #option-arrow {
+  margin-top: 10px;
+}
+/* line 120, css-generate/sass/tinning.scss */
+#top-bar .top-bar-right {
+  width: 80px;
   text-align: right;
-  margin-right: 10px;
+  margin: 10px 10px 0px 0px;
 }
 
-/* line 54, css-generate/sass/tinning.scss */
+/* line 126, css-generate/sass/tinning.scss */
 .count {
-  height: 20px;
-  font-size: 10px;
+  min-height: 16px;
+  min-width: 16px;
+  font-size: 11px;
   color: #fff;
   background-color: #C0392B;
   border: 1px solid #C0392B;
   border-radius: 10px;
   vertical-align: middle;
   text-align: center;
+  padding: 2px 5px;
 }
 
-/* line 65, css-generate/sass/tinning.scss */
-.tab-collection-li, #tab-collection .tab-collection-grid > li, #tab-collection .tab-collection-list > li {
+/* line 138, css-generate/sass/tinning.scss */
+.tab-collection-li, .tab-collection-grid > li, .tab-collection-list > li {
   color: #000;
   border: 1px solid #cccccc;
   background-color: #FFFFFF;
-  margin: 4px;
+  margin: 10px 4px;
   -webkit-box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
   border-radius: 10px;
 }
-/* line 66, css-generate/sass/tinning.scss */
-.tab-collection-li.hover, #tab-collection .tab-collection-grid > li.hover, #tab-collection .tab-collection-list > li.hover {
+/* line 139, css-generate/sass/tinning.scss */
+.tab-collection-li.hover, .tab-collection-grid > li.hover, .tab-collection-list > li.hover {
   background-color: #F2F2F2;
   cursor: pointer;
 }
 
-/* line 77, css-generate/sass/tinning.scss */
-#tab-collection {
-  margin-top: 50px;
+/* line 150, css-generate/sass/tinning.scss */
+.tabs-count {
+  position: absolute;
+  max-width: 35px;
+  margin-top: 5px;
 }
-/* line 79, css-generate/sass/tinning.scss */
-#tab-collection .tab-collection-grid {
-  margin: 0px 10px 0px 0px;
+
+/* line 155, css-generate/sass/tinning.scss */
+.tabs-tools {
+  position: relative;
+  float: right;
+  display: none;
+  z-index: 10;
+}
+/* line 160, css-generate/sass/tinning.scss */
+.tabs-tools.rotate-loading {
+  transform: rotate(360deg);
+  transition: all 500ms ease;
+}
+
+/* line 165, css-generate/sass/tinning.scss */
+.tab-collection-grid {
   padding: 0px;
   clear: both;
 }
-/* line 83, css-generate/sass/tinning.scss */
-#tab-collection .tab-collection-grid > li {
-  padding: 10px 0px 10px 10px;
+/* line 168, css-generate/sass/tinning.scss */
+.tab-collection-grid > li {
+  padding: 8px;
 }
-/* line 86, css-generate/sass/tinning.scss */
-#tab-collection .tab-collection-grid > li .tab-collection-grid-item {
+/* line 171, css-generate/sass/tinning.scss */
+.tab-collection-grid > li .tab-collection-grid-item {
   width: 100%;
   display: inline-block;
 }
-/* line 89, css-generate/sass/tinning.scss */
-#tab-collection .tab-collection-grid > li .tab-collection-grid-item input {
+/* line 174, css-generate/sass/tinning.scss */
+.tab-collection-grid > li .tab-collection-grid-item input {
   float: left;
 }
-/* line 92, css-generate/sass/tinning.scss */
-#tab-collection .tab-collection-grid > li .tab-collection-grid-item .icon-pattern {
-  width: 300px;
+/* line 177, css-generate/sass/tinning.scss */
+.tab-collection-grid > li .tab-collection-grid-item .tabs-tools {
+  margin-right: 5px;
+}
+/* line 180, css-generate/sass/tinning.scss */
+.tab-collection-grid > li .tab-collection-grid-item .content {
   float: left;
-  display: inline;
-  margin-left: 10px;
-  overflow-x: auto;
-  white-space: nowrap;
-}
-/* line 99, css-generate/sass/tinning.scss */
-#tab-collection .tab-collection-grid > li .tab-collection-grid-item .icon-pattern img {
-  margin: 0px 2px;
-}
-/* line 103, css-generate/sass/tinning.scss */
-#tab-collection .tab-collection-grid > li .tab-collection-grid-item .icon-open {
-  width: 20px;
-  float: right;
-  font-size: 16px;
-}
-/* line 111, css-generate/sass/tinning.scss */
-#tab-collection .tab-collection-list {
-  padding: 0px;
-}
-/* line 112, css-generate/sass/tinning.scss */
-#tab-collection .tab-collection-list .count {
+  min-height: 50px;
+  margin-left: 35px;
+  width: 310px;
   margin-top: 5px;
 }
-/* line 116, css-generate/sass/tinning.scss */
-#tab-collection .tab-collection-list > li {
-  padding: 5px 0px 5px 10px;
+/* line 186, css-generate/sass/tinning.scss */
+.tab-collection-grid > li .tab-collection-grid-item .content .icon-wrapper {
+  position: relative;
+  width: 100%;
+  margin-left: 5px;
+  padding: 10px 0px;
 }
-/* line 119, css-generate/sass/tinning.scss */
-#tab-collection .tab-collection-list > li .tab-collection-list-item {
+/* line 191, css-generate/sass/tinning.scss */
+.tab-collection-grid > li .tab-collection-grid-item .content .icon-wrapper img {
+  margin: 0px 2px;
+}
+/* line 194, css-generate/sass/tinning.scss */
+.tab-collection-grid > li .tab-collection-grid-item .content .icon-wrapper ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  text-align: center;
+  width: 100%;
+  height: 100%;
+}
+/* line 201, css-generate/sass/tinning.scss */
+.tab-collection-grid > li .tab-collection-grid-item .content .icon-wrapper ul li {
+  display: block;
+  float: left;
+  font-size: 14px;
+  padding: 0px 2px;
+}
+
+/* line 213, css-generate/sass/tinning.scss */
+.tab-collection-list {
+  padding: 0px;
+}
+/* line 214, css-generate/sass/tinning.scss */
+.tab-collection-list .count {
+  margin-top: 5px;
+}
+/* line 218, css-generate/sass/tinning.scss */
+.tab-collection-list > li {
+  padding: 8px;
+}
+/* line 221, css-generate/sass/tinning.scss */
+.tab-collection-list > li .tab-collection-list-item {
   width: 100%;
   display: inline-block;
 }
-/* line 122, css-generate/sass/tinning.scss */
-#tab-collection .tab-collection-list > li .tab-collection-list-item input {
+/* line 224, css-generate/sass/tinning.scss */
+.tab-collection-list > li .tab-collection-list-item input {
   float: left;
 }
-/* line 125, css-generate/sass/tinning.scss */
-#tab-collection .tab-collection-list > li .tab-collection-list-item ul {
-  float: left;
-  padding-left: 10px;
+/* line 227, css-generate/sass/tinning.scss */
+.tab-collection-list > li .tab-collection-list-item .tabs-tools {
+  margin: 3px 5px 0px 0px;
 }
-/* line 128, css-generate/sass/tinning.scss */
-#tab-collection .tab-collection-list > li .tab-collection-list-item ul li {
+/* line 230, css-generate/sass/tinning.scss */
+.tab-collection-list > li .tab-collection-list-item ul {
+  float: left;
+  margin-left: 35px;
+  width: 310px;
+}
+/* line 234, css-generate/sass/tinning.scss */
+.tab-collection-list > li .tab-collection-list-item ul li {
   padding-bottom: 5px;
   padding-top: 5px;
+  list-style: none;
 }
-/* line 131, css-generate/sass/tinning.scss */
-#tab-collection .tab-collection-list > li .tab-collection-list-item ul li img {
+/* line 238, css-generate/sass/tinning.scss */
+.tab-collection-list > li .tab-collection-list-item ul li img {
   vertical-align: middle;
   margin-right: 5px;
 }
-/* line 135, css-generate/sass/tinning.scss */
-#tab-collection .tab-collection-list > li .tab-collection-list-item ul li .title {
+/* line 242, css-generate/sass/tinning.scss */
+.tab-collection-list > li .tab-collection-list-item ul li .title {
   width: 300px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+/* line 253, css-generate/sass/tinning.scss */
+#wrapper {
+  position: relative;
+  z-index: 1;
+  top: 40px;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  display: none;
+}
+/* line 261, css-generate/sass/tinning.scss */
+#wrapper #scroller {
+  position: absolute;
+  z-index: 1;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  width: 100%;
+  -webkit-transform: translateZ(0);
+  -moz-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  -o-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-text-size-adjust: none;
+  text-size-adjust: none;
+}
+
+/* line 273, css-generate/sass/tinning.scss */
+.fade-in-wrapper {
+  margin: 0;
+  transition: all 300ms ease;
 }

@@ -12,49 +12,74 @@
      -->
 
     <script src="./libs/jquery-2.0.3.js"></script>
+    <script src="./libs/iscroll-probe.js"></script>
     <script src="./libs/handlebars-v2.0.0.js"></script>
     <script src="storage.js"></script>
     <script src="tinning.js"></script>
     <script src="popup.js"></script>
   </head>
   <body>
-    <script id="tab-collection-grid-tpl" type="text/x-handlebars-template">  
-      <ul class="tab-collection-grid">
-        {{#each tinnedList }}
-        <li dataindex="{{@index}}">
-          <div class="tab-collection-grid-item">
-            <input type="button" class="count" value="{{item.length}}"></input>
-            <div class="icon-pattern">
-              {{#each this.item }}
-                <img src="chrome://favicon/{{url}}" title="{{title}}">
-              {{/each}}
+    <script id="tab-collection-grid-tpl" type="text/x-handlebars-template">
+      <div id="scroller">
+        <ul class="tab-collection-grid">
+          {{#each tinnedList }}
+          <li folderId="{{item.id}}">
+            <div class="tab-collection-grid-item">
+              <div class="tabs-count">
+                <span class="count">{{item.length}}</span>
+              </div>
+              <div class="tabs-tools" folderId="{{item.id}}">
+                <img src="res/close.png">
+              </div>
+              <div class="content">
+                <textarea folderId="{{item.id}}" class="title-input" maxlength="100" rows="1" type="text" placeholder="Add a title..." tabindex="0" title="{{item.title}}">{{item.title}}</textarea>
+                <div class="icon-wrapper">
+                  <ul>
+                    {{#each this.item }}
+                      <li><img src="chrome://favicon/{{url}}" tip="{{title}}"></li>
+                    {{/each}}
+                  </ul>
+                </div>
+              </div>
             </div>
-            <!-- <img class="icon-open" src="res/open.png"> -->
-          </div>
-        </li>
-        {{/each}}
-      </ul>
-    </script>  
-    <script id="tab-collection-list-tpl" type="text/x-handlebars-template">  
-      <ul class="tab-collection-list">
-        {{#each tinnedList }}
-        <li dataindex="{{@index}}">
-          <div class="tab-collection-list-item">
-            <input type="button" class="count" value="{{item.length}}"></input>
-            <ul>
-              {{#each this.item }}
-                <li>
-                  <div class="title"><img src="chrome://favicon/{{url}}" title="{{title}}">{{title}}</div>
-                </li>
-              {{/each}}
-            </ul>
-          </div>
-        </li>
-        {{/each}}
-      </ul>
+          </li>
+          {{/each}}
+        </ul>
+      </div>
     </script>
-    <div class="popover bottom">
-      <div class="popover-header">Options</div>
+    <script id="tab-collection-list-tpl" type="text/x-handlebars-template">  
+      <div id="scroller">
+        <ul class="tab-collection-list">
+          {{#each tinnedList }}
+          <li folderId="{{item.id}}">
+            <div class="tab-collection-list-item">
+              <div class="tabs-count">
+                <span class="count">{{item.length}}</span>
+              </div>
+              <div class="tabs-tools" folderId="{{item.id}}">
+                <img src="res/close.png">
+              </div>
+              <ul>
+                <li>
+                  <textarea folderId="{{item.id}}" class="title-input" maxlength="100" rows="1" type="text" placeholder="Add a title..." tabindex="0" title="{{item.title}}">{{item.title}}</textarea>
+                </li>
+                {{#each this.item }}
+                  <li>
+                    <div class="title"><img src="chrome://favicon/{{url}}" title="{{title}}">{{title}}</div>
+                  </li>
+                {{/each}}
+              </ul>
+            </div>
+          </li>
+          {{/each}}
+        </ul>
+      </div>
+    </script>
+    <div id="icon-tooltips-popover" class="popover bottom">
+      <div class="popover-detail">{{title}}</div>
+    </div>
+    <div id="option-popover" class="popover bottom">
+      <div class="popover-header">Display As</div>
       <div class="popover-detail">
         <div id="display-mode" class="row">
           <div class="radio-button">
@@ -67,32 +92,20 @@
             </div>
           </div>
         </div>
-        <div id="display" class="row">
-          <div class="radio-button">
-            <div class="radio-item">
-              <div class="radio-slider radio-slider-move"></div>
-              <span class="radio-label"><img src="res/twitter.png"></span>
-            </div>
-            <div class="radio-item">
-                <span class="radio-label"><img src="res/facebook.png"></span>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
     <div id="top-bar">
       <div class="item logo">Tinning</div>
       <div class="item options-btn"><img id="option-arrow" width="24" src="res/arrow-down.png"></div>
-      <button id="tin-tabs" class="item tin-btn">Tin</button>
+      <div class="item top-bar-right">
+        <img id="tin-tabs" src="res/open.png" width="24">
+      </div>
     </div>
-    <div id="tab-collection"></div>
-
-    <footer>
-      <a href="credits.html" target="_blank">Credits</a>
-      &nbsp;|&nbsp;
-      <a href="https://chrome.google.com/webstore/search?q=tts"
-         target="_blank">Get more voices</a>
-    </footer>
+    <div class="tinning-watermark">
+      <img src="res/tinning_logo_48.png">
+      <div class="brand">Tinning</div>
+    </div>
+    <div id="wrapper" class="fade-in-wrapper"></div>
   </body>
 </html>
 
