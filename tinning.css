@@ -303,7 +303,7 @@ textarea:focus, select:focus {
 /* line 87, css-generate/sass/tinning.scss */
 .tinning-watermark .brand {
   font-size: 20px;
-  margin-top: 20px;
+  margin-top: 5px;
   font-family: "Source Code Pro";
 }
 
