@@ -14,7 +14,7 @@ Array.prototype.contains = function (item, compareFields) {
   var appearAt = -1;
 
   if (this.length === 0) return appearAt; 
-  this.filter(function (value, index, element) {
+  this.filter(function (value, index) {
     for(var i = 0; i < compareFields.length; i++) {
       if (item[compareFields[i]] !== value[compareFields[i]]) {
         return false;
@@ -50,51 +50,64 @@ var tinning = {
 
   // Callback to tin tabs
   tinningTabs: function (tabs) {
-    var tabCount = tabs.length;
-
-    tabs.forEach(function (item) {
-      // Collect the offset top value for each tab, give up if the page is not normal
-      if (item.url.indexOf("chrome") === 0 || item.url === "") {
-        tabCount--;
+    var hasNewTab = false;
+    tabs.forEach(function (item, index) {
+      // Collect the offset top value for each tab except the new tab
+      if (item.url === "") {
+        hasNewTab = true;
+        tabs.removeAt(index);
       }
     });
 
-    if (tabCount === 0) return;
+    // No satisfied tab need to be tinned
+    if (tabs.length === 0) return;
+
+    // Remain at least one new tab to prevent the window auto close
+    if(!hasNewTab) {
+      chrome.tabs.create({url: ""});
+    }
+
+    // if continue...
+    // Send the count of tabs usage data to server anonymously 
+    if (storage.retrieveConfigByKey("send-usage-statistics")) {
+      tinning.sendUsageData("0", tabs.length);
+    }
+
     // Create the folder to store the tabs for current window
     chrome.bookmarks.create({
         "parentId": tinning.tinningFolderId,
         "title": ""
       },
       function(newFolder) {
-        var offsetList = [];
-
         try {
-          // Enabled: Send the count of tabs usage data to server anonymously 
-          if (storage.retrieveConfigByKey("send-usage-statistics")) {
-            tinning.sendUsageData("0", tabs.length);
-          }
+          tabs.forEach(function (item, index) {
+            // Create bookmarks
+            chrome.bookmarks.create({
+              "parentId": newFolder.id,
+              "title": item.title,
+              "url": item.url
+            });
 
-          tabs.forEach(function (record, index) {
+            if (item.url.indexOf("chrome") >= 0) {
+              // Chrome options page. It can be tinned, so keep the tabCount.
+              tabs.removeAt(index);
+            }
+          });
 
-            // Collect the offset top value for each tab, give up if the page is not normal
-            if (record.url.indexOf("chrome") !== 0 && record.url !== "") {
+          // No satisfied tab need to be tinned
+          var offsetList = [];
+          var tabCurrentSize = tabs.length;
+          if (tabCurrentSize === 0) {
+            // Refresh the popup
+            tinning.fetchTinningFolderContent();
+          } else {
+            // Collect the offset top value for each tab, here we should have no more special tabs.
+            tabs.forEach(function (record) {
               chrome.tabs.executeScript(record.id, {code: "document.getElementsByTagName('body')[0].scrollTop;"}, function (results) {
                 var offsetListItem = {};
 
-                // Create bookmarks
-                chrome.bookmarks.create({
-                  "parentId": newFolder.id,
-                  "title": record.title,
-                  "url": record.url
-                });
-
-                // Close the tabs after tin or not
-                if (storage.retrieveConfigByKey("close-tab-after-tin")) {
-                  chrome.tabs.remove(record.id);
-                }
-
-                if (results === undefined) {
-                  tabCount--;
+                if (results === undefined || results === null || results === "") {
+                  tabCurrentSize -= 1;
                 } else {
                   offsetListItem.title = record.title;
                   offsetListItem.url = record.url;
@@ -102,15 +115,21 @@ var tinning = {
                   offsetList.push(offsetListItem);
                 }
 
-                if (offsetList.length === tabCount) {
+                if (offsetList.length === tabCurrentSize) {
                   storage.addOffsetsItems(offsetList);
 
                   // Refresh the popup
                   tinning.fetchTinningFolderContent();
                 }
+
+                // Close the tabs after tin or not
+                if (storage.retrieveConfigByKey("close-tab-after-tin")) {
+                  chrome.tabs.remove(record.id);
+                }
+  
               });
-            }
-          });
+            });
+          }
         } catch (e) {
           console.log(e);
         }
@@ -118,6 +137,7 @@ var tinning = {
     );
   },
 
+  // Re-open the tinned tabs
   unTinningTabs: function (folderId, el) {
     var collectItem = [];
 
@@ -137,35 +157,27 @@ var tinning = {
       }
     }
 
-    
     // Recover the tabs
-    var tabOptions = {};
+    var tabOptions = {},
+        urls = [];
+
+    // if open in new window, collect urls, otherwise, open them in current window
+    collectItem.item.forEach(function (tab) {
+      if (storage.retrieveConfigByKey("open-tabs-in-new-window")) {
+        urls.push(tab.url);
+      } else {
+        chrome.tabs.create({url: tab.url});
+      }
+    });
 
     // Enabled: open all the tabs in a new window
-    if (storage.retrieveConfigByKey("open-tabs-in-new-window")) {
-      chrome.windows.create({focused: true, incognito: false}, function (window) {
-        tabOptions.windowId = window.id;
-        collectItem.item.forEach(function (tab) {
-          tabOptions.url = tab.url;
-          chrome.tabs.create(tabOptions, function (createdTab) {
-            // Scroll to last position or not
-
-          });
-        });
-      });
-    } else {
-      collectItem.item.forEach(function (tab) {
-        tabOptions.url = tab.url;
-        chrome.tabs.create(tabOptions, function (createdTab) {
-          // Scroll to last position or not
-
-        });
-    });
+    if (urls.length > 0 && storage.retrieveConfigByKey("open-tabs-in-new-window")) {
+      chrome.windows.create({url: urls, focused: true, incognito: false});
     }
 
     tinning.tinnedList.removeAt(folderId);
 
-    // Remove the related bookmarks
+    // Remove the related li element
     chrome.bookmarks.removeTree(collectItem.item.id, function () {
       el.delay(100).fadeOut(500);
       el.animate({
@@ -177,6 +189,7 @@ var tinning = {
       });
     });
   },
+  
   registerScrollToLastPositionListener: function () {
     if (storage.retrieveConfigByKey("scroll-to-the-last-position")) {
       chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
