@@ -12,7 +12,7 @@ var storage = {
   configsArray: [
     {key: "display_mode", value: "grid"}, 
     {key: "close-tab-after-tin", value: true},
-    {key: "open-tabs-in-new-window", value: false},
+    {key: "open-tabs-in-new-window", value: true},
     {key: "send-usage-statistics", value: true},
     {key: "scroll-to-the-last-position", value: true}
   ],
@@ -24,25 +24,25 @@ var storage = {
   iniConfigs: function () {
 
     // Initialize the configurations for Tinning
-    var configs = JSON.parse(this.retrieveStorageByKey(this.configKey));
+    var configs = JSON.parse(storage.retrieveStorageByKey(storage.configKey));
     if (configs === null || configs === "") {
       configs = {};
     }
 
-    for (var i = 0; i < this.configsArray.length; i++) {
-      if (configs === null || configs[this.configsArray[i].key] === undefined) {
-        configs[this.configsArray[i].key] = this.configsArray[i].value;
+    for (var i = 0; i < storage.configsArray.length; i++) {
+      if (configs === null || configs[storage.configsArray[i].key] === undefined) {
+        configs[storage.configsArray[i].key] = storage.configsArray[i].value;
       }
     }
 
-    this.saveStorageValue(this.configKey, JSON.stringify(configs));
+    storage.saveStorageValue(storage.configKey, JSON.stringify(configs));
     
     // Initialize the offsets storage.
-    var offsetsList = JSON.parse(this.retrieveStorageByKey(this.autoScrollConfigKey));
+    var offsetsList = JSON.parse(storage.retrieveStorageByKey(storage.autoScrollConfigKey));
     
     if (offsetsList === null || offsetsList === "") {
       offsetsList = [];
-      this.saveStorageValue(this.autoScrollConfigKey, JSON.stringify(offsetsList));
+      storage.saveStorageValue(storage.autoScrollConfigKey, JSON.stringify(offsetsList));
     }
 
     return configs;
@@ -50,15 +50,15 @@ var storage = {
 
   // Retrieve all key-value configurations.
   retrieveConfigByKey: function (key) {
-    var configs = JSON.parse(this.retrieveStorageByKey(this.configKey));
+    var configs = JSON.parse(storage.retrieveStorageByKey(storage.configKey));
     return configs[key];
   },
 
   // Update config value by key.
   setConfigValueByKey: function (key, value) {
-    var configs = JSON.parse(this.retrieveStorageByKey(this.configKey));
+    var configs = JSON.parse(storage.retrieveStorageByKey(storage.configKey));
     configs[key] = value;
-    this.saveStorageValue(this.configKey, JSON.stringify(configs));
+    storage.saveStorageValue(storage.configKey, JSON.stringify(configs));
   },
 
   /*********************************************/
@@ -68,7 +68,7 @@ var storage = {
   // Retrieve all key-value offsets.
   fetchOffsetsByUrlAndTitle: function (url, title) {
     var savedOffset = [];
-    var offsetsList = JSON.parse(this.retrieveStorageByKey(this.autoScrollConfigKey));
+    var offsetsList = JSON.parse(storage.retrieveStorageByKey(storage.autoScrollConfigKey));
 
     for (var i = 0; i < offsetsList.length; i++) {
       if (title === offsetsList[i].title && url === offsetsList[i].url) {
@@ -81,7 +81,7 @@ var storage = {
 
   // Update config value by key. example: {"top": 120,"title": "","url": ""}
   addOffsetsItems: function (items) {
-    var offsetsList = JSON.parse(this.retrieveStorageByKey(this.autoScrollConfigKey));
+    var offsetsList = JSON.parse(storage.retrieveStorageByKey(storage.autoScrollConfigKey));
     var addUniqueOffsetItem = function (item) {
       var appearAt = offsetsList.contains(item, ["url", "title"]);
       if (appearAt !== -1) {
@@ -95,18 +95,18 @@ var storage = {
     } else {
       addUniqueOffsetItem(items);
     }
-    this.saveStorageValue(this.autoScrollConfigKey, JSON.stringify(offsetsList));
+    storage.saveStorageValue(storage.autoScrollConfigKey, JSON.stringify(offsetsList));
   },
 
   removeOffsetsByUrls: function (urls) {
-    var offsetsList = JSON.parse(this.retrieveStorageByKey(this.autoScrollConfigKey));
+    var offsetsList = JSON.parse(storage.retrieveStorageByKey(storage.autoScrollConfigKey));
     for (var i = 0; i < offsetsList.length; i++) {
-      if ($.inArray(offsetsList[i].url, urls)) {
+      if (urls.indexOf(offsetsList[i].url) !== -1) {
         offsetsList.splice(i , 1);
       }
     }
     
-    this.saveStorageValue(this.autoScrollConfigKey, JSON.stringify(offsetsList));
+    storage.saveStorageValue(storage.autoScrollConfigKey, JSON.stringify(offsetsList));
   },
 
   /*********************************************/
