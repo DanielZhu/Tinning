@@ -1,93 +1,97 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>Tinning for Chrome Options</title>
+  <head>
+    <title>Tinning for Chrome Options</title>
 
     <link rel="stylesheet" type="text/css" href="options.css">
-	  <script src="./libs/jquery-2.0.3.js"></script>
-	</head>
-	<body>
-		<div class="container">
-			<div class="row header">
-				<img src="res/tinning_logo_48.png"><span class="title">Tinning</span>
-			</div>
-		</div>
-		<div class="container panel">
-			<div class="row">
-				<div class="attr-label">Display Mode</div>
-				<div class="attr-value">
-          			<div class="radio-button" id="display-mode">
-            			<div class="radio-item">
-              				<div class="radio-slider"></div>
-              				<span class="radio-label">Grid</span>
-            			</div>
-	            		<div class="radio-item">
-	                		<span class="radio-label">List</span>
-	        			</div>
-	          		</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="attr-label">Close Tab After Tin</div>
-				<div class="attr-value">
-		          	<div class="radio-button" id="close-tab-after-tin">
-			            <div class="radio-item">
-			              	<div class="radio-slider"></div>
-			              	<span class="radio-label">Yes</span>
-			            </div>
-			            <div class="radio-item">
-			                <span class="radio-label">&nbsp;No</span>
-			            </div>
-		        	</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="attr-label">Open Tabs In New Window</div>
-				<div class="attr-value">
-		          	<div class="radio-button" id="open-tabs-in-new-window">
-			            <div class="radio-item">
-			              	<div class="radio-slider"></div>
-			              	<span class="radio-label">Yes</span>
-			            </div>
-			            <div class="radio-item">
-			                <span class="radio-label">&nbsp;No</span>
-			            </div>
-			        </div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="attr-label">Automatically send usage statistics</div>
-				<div class="attr-value">
-		          	<div class="radio-button" id="send-usage-statistics">
-			            <div class="radio-item">
-			              	<div class="radio-slider"></div>
-			              	<span class="radio-label">Yes</span>
-			            </div>
-			            <div class="radio-item">
-			                <span class="radio-label">&nbsp;No</span>
-			            </div>
-			        </div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="attr-label">Scroll to the last position after un-Tin tabs</div>
-				<div class="attr-value">
-		          	<div class="radio-button" id="scroll-to-the-last-position">
-			            <div class="radio-item">
-			              	<div class="radio-slider"></div>
-			              	<span class="radio-label">Yes</span>
-			            </div>
-			            <div class="radio-item">
-			                <span class="radio-label">&nbsp;No</span>
-			            </div>
-			        </div>
-				</div>
-			</div>
-		</div>
-		<footer class="row">
-			© Copyright 2014 Staydan.com.
-		</footer>
-	  <script src="storage.js"></script>
-		<script src="options.js"></script>
-	</body>
+    <script src="./libs/jquery-2.0.3.min.js"></script>
+    <script src="./libs/handlebars-v2.0.0.js"></script>
+  </head>
+  <body>
+    <script id="option-radio-tpl" type="text/x-handlebars-template">
+      <div class="row">
+        <div class="attr-label option-label">{{label}}</div>
+        <div class="attr-value">
+          <div class="radio-button" id="{{radio_id}}">
+            <div class="radio-item">
+              <div class="radio-slider"></div>
+              <span class="radio-label">{{radio_label_left}}</span>
+            </div>
+            <div class="radio-item">
+              <span class="radio-label">{{radio_label_right}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </script>
+    <script id="option-radio-tpl" type="text/x-handlebars-template">
+      <div id="tooltips-popover" class="popover bottom">
+        <div class="popover-detail">{{title}}</div>
+      </div>
+    </script>
+    <script id="donate-wechat-tpl" type="text/x-handlebars-template">
+      <img src="res/wechat_donate.png">
+    </script>
+    <script id="donate-alipay-tpl" type="text/x-handlebars-template">
+      <img src="res/alipay_donate.jpg">
+    </script>
+    <script id="donate-paypal-tpl" type="text/x-handlebars-template">
+      <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" style="text-align: center; padding: 25px 0px;">
+        <input type="hidden" name="cmd" value="_s-xclick">
+        <input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----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-----END PKCS7-----
+        ">
+        <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+        <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+      </form>
+    </script>
+    <div id="option-tooltips-popover" class="popover right">
+      <div class="popover-detail">{{title}}</div>
+    </div>
+    <div id="donate-popover" class="popover top">
+      <div class="popover-detail">
+        <div class="donate-thanks">Thank you for your coffee.</div>
+        <div class="donate-approach"></div>
+        <div class="donate-popover-selection">
+          <ul>
+            <li>Paypal</li>
+            <li class="separator">|</li>
+            <li>Alipay</li>
+            <li class="separator">|</li>
+            <li>WeChat</li>
+          </ul>
+        </div>        
+      </div>
+    </div>
+    <div class="container">
+      <div class="row header">
+        <img src="res/tinning_logo_48.png"><span class="title">Tinning</span>
+      </div>
+    </div>
+    <div id="alternative-panel" class="container"></div>
+    <div class="feedback-bar">
+      <span id="donate-btn" class="button">Donate</span>
+      <span id="feedback-btn" class="button">Feedback</span>
+    </div>
+
+    <div id="feedback-container" class="container">
+      <div class="row header">
+        <img src="res/tinning_logo_48.png"><span class="title">Provide Feedback</span>
+      </div>
+      <div class="setting-bar"><span id="setting-btn" class="button">Setting</span></div>
+      <div class="feedback-panel container">
+        <ul>
+          <li><span class="label">Email:</span><input class="mailBox" type="email" tabindex="1"/></li>
+          <li><span class="label">Comments:</span><span class="feedback-message"></span></li>
+          <li><textarea class="commentBox" maxlength="1000" rows="10" type="text" placeholder="" tabindex="2"></textarea></li>
+          <li style="text-align: center;"><span class="feedback-submit-btn button" tabindex="3">Send Feedback</span></li>
+        </ul>
+      </div>
+    </div>
+    <footer class="row">
+      <div class="tinning-info"></div>
+      <div class="copyright">© Copyright 2014 Staydan.com</div>
+    </footer>
+    <script src="storage.js"></script>
+    <script src="options.js"></script>
+  </body>
 </html>

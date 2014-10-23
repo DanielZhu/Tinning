@@ -11,8 +11,8 @@
       - [1]: http://developer.chrome.com/extensions/contentSecurityPolicy.html
      -->
 
-    <script src="./libs/jquery-2.0.3.js"></script>
-    <script src="./libs/iscroll-probe.js"></script>
+    <script src="./libs/jquery-2.0.3.min.js"></script>
+    <script src="./libs/iscroll.js"></script>
     <script src="./libs/handlebars-v2.0.0.js"></script>
     <script src="storage.js"></script>
     <script src="tinning.js"></script>
@@ -75,12 +75,13 @@
         </ul>
       </div>
     </script>
+    <div class="mask"></div>
     <div id="icon-tooltips-popover" class="popover bottom">
       <div class="popover-detail">{{title}}</div>
     </div>
-    <div id="option-popover" class="popover bottom">
-      <div class="popover-header">Display As</div>
+    <div id="option-popover" class="popover right">
       <div class="popover-detail">
+        <div class="row"><span id="setting-tabs" class="button">Setting</span></div>
         <div id="display-mode" class="row">
           <div class="radio-button">
             <div class="radio-item">
@@ -95,10 +96,10 @@
       </div>
     </div>
     <div id="top-bar">
-      <div class="item logo">Tinning</div>
+      <!-- <div class="item logo">Tinning</div> -->
       <div class="item options-btn"><img id="option-arrow" width="24" src="res/arrow-down.png"></div>
       <div class="item top-bar-right">
-        <img id="tin-tabs" src="res/open.png" width="24">
+        <span id="tin-tabs" class="button">Tin Tabs</span>
       </div>
     </div>
     <div class="tinning-watermark">
