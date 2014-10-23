@@ -83,11 +83,10 @@ textarea:focus, select:focus {
   height: 100%;  
   overflow: hidden;  
   text-align: center;
-  opacity: 0.3;
+  opacity: 0.5;
   .brand {
     font-size: 20px;
     margin-top: 5px;
-    color: #4A4A4A;
     font-family: "Source Code Pro";
   }
 }
@@ -104,16 +103,24 @@ textarea:focus, select:focus {
   .item {
     float: left;
   }
-  .options-btn {
+  .logo {
     margin-left: $top-bar-margin;
+    width: 80px;
+    color: #ccc;
+    font-size: 20px;
+    font-family: "Source Code Pro";
+  }
+  .options-btn {
+    width: $popup-width - 80 * 2 - $top-bar-margin * 2;
     text-align: center;
     #option-arrow {
       margin-top: 10px;
     }
   }
   .top-bar-right {
-    right: 10px;
-    position: absolute
+    width: 80px;
+    text-align: right;
+    margin: 10px 10px 0px 0px;
   }
 }
 .count {
@@ -266,11 +273,4 @@ textarea:focus, select:focus {
 .fade-in-wrapper {
   margin: 0;
   transition: all 300ms ease;
-}
-#option-popover {
-  .row {
-    text-align: center;
-    min-height: 30px;
-    line-height: 40px !important;
-  }
 }
