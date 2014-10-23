@@ -34,6 +34,9 @@ var tinning = {
    scrolling: false,
    myScroll: null,
    iconScroller: null,
+   tinningVersion: null,
+   chromeVersion: null,
+   platform: null,
 
   updateBadge: function (bargeText) {
     var bargeOption = {};
@@ -47,6 +50,16 @@ var tinning = {
 
   // Callback to tin tabs
   tinningTabs: function (tabs) {
+    var tabCount = tabs.length;
+
+    tabs.forEach(function (item) {
+      // Collect the offset top value for each tab, give up if the page is not normal
+      if (item.url.indexOf("chrome") === 0 || item.url === "") {
+        tabCount--;
+      }
+    });
+
+    if (tabCount === 0) return;
     // Create the folder to store the tabs for current window
     chrome.bookmarks.create({
         "parentId": tinning.tinningFolderId,
@@ -55,65 +68,76 @@ var tinning = {
       function(newFolder) {
         var offsetList = [];
 
-        var totalTabsSize = tabs.length;
-        tabs.forEach(function (record) {
+        try {
+          // Enabled: Send the count of tabs usage data to server anonymously 
+          if (storage.retrieveConfigByKey("send-usage-statistics")) {
+            tinning.sendUsageData("0", tabs.length);
+          }
 
-          // Collect the offset top value for each tab, give up if the page is not normal
-          if (record.url.indexOf("chrome") !== 0) {
-            chrome.tabs.executeScript(record.id, {code: "document.getElementsByTagName('body')[0].scrollTop;"}, function (results) {
-              var offsetListItem = {};
-              if (results === undefined) {
-                totalTabsSize--;
-              } else {
-                offsetListItem.title = record.title;
-                offsetListItem.url = record.url;
-                offsetListItem.top = results[0];
-                offsetList.push(offsetListItem);
-                if (offsetList.length === totalTabsSize) {
-                  storage.addOffsetsItems(offsetList);
+          tabs.forEach(function (record, index) {
+
+            // Collect the offset top value for each tab, give up if the page is not normal
+            if (record.url.indexOf("chrome") !== 0 && record.url !== "") {
+              chrome.tabs.executeScript(record.id, {code: "document.getElementsByTagName('body')[0].scrollTop;"}, function (results) {
+                var offsetListItem = {};
+
+                // Create bookmarks
+                chrome.bookmarks.create({
+                  "parentId": newFolder.id,
+                  "title": record.title,
+                  "url": record.url
+                });
+
+                // Close the tabs after tin or not
+                if (storage.retrieveConfigByKey("close-tab-after-tin")) {
+                  chrome.tabs.remove(record.id);
                 }
-              }
-            });
-          } else {
-            totalTabsSize--;
-          }
-        });
 
-        for (var i = 0; i < tabs.length; i++) {
-          var tab = tabs[i];
+                if (results === undefined) {
+                  tabCount--;
+                } else {
+                  offsetListItem.title = record.title;
+                  offsetListItem.url = record.url;
+                  offsetListItem.top = results[0];
+                  offsetList.push(offsetListItem);
+                }
 
-          // Create bookmarks
-          chrome.bookmarks.create({
-            "parentId": newFolder.id,
-            "title": tab.title,
-            "url": tab.url
+                if (offsetList.length === tabCount) {
+                  storage.addOffsetsItems(offsetList);
+
+                  // Refresh the popup
+                  tinning.fetchTinningFolderContent();
+                }
+              });
+            }
           });
-
-          // Close the tabs after tin or not
-          if (storage.retrieveConfigByKey("close-tab-after-tin")) {
-            chrome.tabs.remove(tab.id);
-          }
+        } catch (e) {
+          console.log(e);
         }
-
-        // Refresh the popup
-        tinning.fetchTinningFolderContent();
       }
     );
   },
 
   unTinningTabs: function (folderId, el) {
-    var collectItem = null;
+    var collectItem = [];
 
     // Find out the correct folder and remove from the memory
     for (var i = 0; i < tinning.tinnedList.length; i++) {
       var bookmarkFolder = tinning.tinnedList[i];
       if (bookmarkFolder.item.id === folderId) {
         collectItem = bookmarkFolder;
+
+        // Enabled: Send the count of tabs usage data to server anonymously 
+        if (storage.retrieveConfigByKey("send-usage-statistics")) {
+          tinning.sendUsageData("1", collectItem.item.length);
+        }
+
         tinning.tinnedList.removeAt(i);
         break;
       }
     }
 
+    
     // Recover the tabs
     var tabOptions = {};
 
@@ -156,11 +180,13 @@ var tinning = {
   registerScrollToLastPositionListener: function () {
     if (storage.retrieveConfigByKey("scroll-to-the-last-position")) {
       chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
-        if (tab.status === "complete") {
+        // Collect the offset top value for each tab, give up if the page is not normal
+        if (tab.status === "complete" && tab.url.indexOf("chrome") !== 0) {
           var savedOffset = storage.fetchOffsetsByUrlAndTitle(tab.url, tab.title);
-          if (savedOffset) {
+          if (savedOffset && savedOffset.top) {
             chrome.tabs.executeScript(tabId, {code: "document.getElementsByTagName('body')[0].scrollTop=" + savedOffset.top}, function (results) {
-              console.log(tab.title + " scroll to last position completed.");
+              // console.log(tab.title + " scroll to last position completed.");
+              storage.removeOffsetsByUrls([tab.url]);
             });
           }
         }
@@ -179,13 +205,6 @@ var tinning = {
           tinning.tinningFolderId = otherBookmarks[appearAt].id;
           tinning.updateBadge(otherBookmarks[appearAt].children.length);
         }
-        // for (var i = 0; i < otherBookmarks.length; i++) {
-        //   if (otherBookmarks[i].title === "Tinning") {
-        //     tinning.tinningFolderId = otherBookmarks[i].id;
-        //     tinning.updateBadge(otherBookmarks[i].children.length);
-        //     // break;
-        //   }
-        // }
 
         if (tinning.tinningFolderId === null) {
           tinning.addTinningFolder();
@@ -227,6 +246,35 @@ var tinning = {
         tinning.renderPopup();
       }
     );
+  },
+  sendUsageData: function (actionCode, tabCounts) {
+    // {"platform": "win","tinning_version":"1.0.0","chrome_version":"1.0.0","action": 0,"number": 10}
+    var reqObj = {};
+    reqObj.platform = tinning.platform;
+    reqObj.chrome_version = tinning.chromeVersion;
+    reqObj.tinning_version = tinning.tinningVersion;
+    reqObj.action = actionCode;
+    reqObj.number = tabCounts;
+
+    $.ajax({
+      url: "http://www.staydan.com/tinning/api/index.php/postUsageData",
+          type: "Post",
+          data: JSON.stringify(reqObj),
+          dataType: "json",
+          cache:false,
+      success : function(obj) {
+        var state = obj.result;
+        if(state === "Success"){
+          // setResponseMsg("Thanks for your feedback, I'll read it in detail and reply you ASAP!" + errorMsg, true);
+        } else {
+          // var errorMsg = obj.errorMsg;
+          // setResponseMsg("Sorry!" + errorMsg, false);
+        }
+      },
+      error: function(){
+        // setResponseMsg("Sorry! Something wrong happened, it's definitely my mistake.", false);
+      }
+    });
   },
 
   renderPopup: function () {
@@ -280,34 +328,37 @@ var tinning = {
       }, 50);
     });
 
-    $(".icon-wrapper img")
-      .hover(function (element) {
+    $(".icon-wrapper img").hover(
+      function (element) {
         var leftDis = element.currentTarget.x - $("#icon-tooltips-popover").width() / 2;
         $("#icon-tooltips-popover").css("left", leftDis > 0 ? leftDis : 0);
         $("#icon-tooltips-popover").css("top", element.currentTarget.y + element.currentTarget.height + 10);
 
         var iconTooltipsSource = "<div class='popover-detail'>{{title}}</div>";
         var iconTooltipsTemplate = Handlebars.compile(iconTooltipsSource);
-        var context = {title: $(this).attr("tip")}
+        var context = {title: $(this).attr("tip")};
         var html = iconTooltipsTemplate(context);
         
         $("#icon-tooltips-popover").html(html);
-        $("#icon-tooltips-popover").fadeIn("fast");
-      })
-      .mouseleave(function () {
+        $("#icon-tooltips-popover").show();
+      },
+      function () {
         $("#icon-tooltips-popover").hide();
-      });
+        $("#icon-tooltips-popover").html("");
+      }
+    );
 
-    $("#scroller > ul > li")
-      .mouseenter(function () {
-        $(this).addClass("hover");
-        $(this).children().find(".tabs-tools").fadeIn("fast");
-      })
-      .mouseleave(function () {
-        $(this).removeClass("hover");
-        $(this).children().find(".tabs-tools").fadeOut("fast");
-      })
-      .click(function (e) {
+    $("#scroller > ul > li").hover(
+        function () {
+          $(this).addClass("hover");
+          $(this).children().find(".tabs-tools").fadeIn("fast");
+        },
+        function () {
+          $(this).removeClass("hover");
+          $(this).children().find(".tabs-tools").fadeOut("fast");
+        }
+      );
+    $("#scroller > ul > li").click(function (e) {
         if (!tinning.scrolling && e.target.type !== "textarea") {
           console.log("clicked...");
           var folderId = $(this).attr("folderid");
@@ -394,13 +445,19 @@ var tinning = {
     var margin = 10;
     // Popopver bottom
     $("#option-arrow").toggleClass("arrow-rotate");
-    $("#option-popover").css("left", element.currentTarget.x - $("#option-popover").width() / 2);
-    $("#option-popover").css("top", element.currentTarget.y + element.currentTarget.height + margin);
+
+    var leftDis = element.currentTarget.x + element.currentTarget.width + margin;
+    $(".popover.right").css("left", leftDis > 0 ? leftDis : 0);
+    $(".popover.right").css("top", element.currentTarget.y);
+
+    $("#arrowDnow").hasClass("arrow-rotate") ? $(".popover.right").fadeIn() : $(".popover.right").fadeOut();
 
     if ($("#option-arrow").hasClass("arrow-rotate")) {
       $("#option-popover").fadeIn();
+      $(".mask").fadeIn();
     } else {
       $("#option-popover").fadeOut();
+      $(".mask").fadeOut();
     }
   },
 
@@ -412,12 +469,45 @@ var tinning = {
     } else if (this.configs.display_mode === "list") {
       $("#display-mode .radio-slider").toggleClass("radio-slider-move", false);
     }
+
+    chrome.runtime.getPlatformInfo(function (platformInfo) {
+      tinning.platform = platformInfo.os;
+    });
+
+    var userAgent = window.navigator.userAgent.split(" ");
+    for (var i = 0; i < userAgent.length; i++) {
+      if (userAgent[i].indexOf("Chrome") !== -1) {
+        tinning.chromeVersion = userAgent[i].substr(userAgent[i].indexOf("/") + 1);
+        break;
+      }
+    }
+
+    var manifestObj = chrome.runtime.getManifest();
+    tinning.tinningVersion = manifestObj.version;
   },
 
   registerEvent: function () {
     $("#tin-tabs").click(function () {
       tinning.collectTabs();
     });
+
+    $("#setting-tabs").click(function () {
+      chrome.tabs.create({url: chrome.runtime.getURL("options.html")});
+    });
+
+    $(".mask").click(function () {
+      $("#option-popover").fadeOut();
+      $(".mask").fadeOut();
+      $("#option-arrow").toggleClass("arrow-rotate", false);
+    });
+
+    $(".button").hover(
+      function () {
+        $(this).addClass("hover");
+      }, function () {
+        $(this).removeClass("hover");
+      }
+    );
 
     $("#option-arrow").click(function (element) {
       tinning.onOptionClicked(element);
