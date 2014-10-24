@@ -66,12 +66,12 @@ var storage = {
   /*********************************************/
 
   // Retrieve all key-value offsets.
-  fetchOffsetsByUrlAndTitle: function (url, title) {
+  fetchOffsetsByUrl: function (url) {
     var savedOffset = [];
     var offsetsList = JSON.parse(storage.retrieveStorageByKey(storage.autoScrollConfigKey));
 
     for (var i = 0; i < offsetsList.length; i++) {
-      if (title === offsetsList[i].title && url === offsetsList[i].url) {
+      if (url === offsetsList[i].url) {
         savedOffset = offsetsList[i];
         break;
       }
@@ -79,11 +79,11 @@ var storage = {
     return savedOffset;
   },
 
-  // Update config value by key. example: {"top": 120,"title": "","url": ""}
+  // Update config value by key. example: {"top": 120,"url": ""}
   addOffsetsItems: function (items) {
     var offsetsList = JSON.parse(storage.retrieveStorageByKey(storage.autoScrollConfigKey));
     var addUniqueOffsetItem = function (item) {
-      var appearAt = offsetsList.contains(item, ["url", "title"]);
+      var appearAt = offsetsList.contains(item, ["url"]);
       if (appearAt !== -1) {
         offsetsList.removeAt(appearAt);
       }

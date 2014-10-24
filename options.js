@@ -91,8 +91,12 @@ $(document).ready(function(){
   };
   var sendFeedback = function () {
     var reqObj = {};
+    var now = new Date();
+    var currentTime = now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + now.getDate() + " " + now.getHours() + ":" + now.getMinutes() + ":" + now.getSeconds();
+
     reqObj.mail = $('.mailBox').val();
     reqObj.feedback = $('.commentBox').val();
+    reqObj.created_at = currentTime;    
 
     if (reqObj.mail.length === 0 || reqObj.feedback.length === 0) {
       setResponseMsg("Sorry! Please fill in both fields.", false);
