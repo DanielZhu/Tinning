@@ -1,13 +1,21 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Tinning for Chrome Options</title>
+    <title></title>
 
     <link rel="stylesheet" type="text/css" href="options.css">
     <script src="./libs/jquery-2.0.3.min.js"></script>
     <script src="./libs/handlebars-v2.0.0.js"></script>
   </head>
   <body>
+    <script id="toggle-radio-tpl" type="text/x-handlebars-template">
+      <div class="row">
+        <div class="attr-label option-label">{{label}}</div>
+        <div class="attr-value">
+          <div class="toggle-button toggle-button-animation" id="{{toggle_id}}"></div>
+        </div>
+      </div>
+    </script>
     <script id="option-radio-tpl" type="text/x-handlebars-template">
       <div class="row">
         <div class="attr-label option-label">{{label}}</div>
@@ -15,10 +23,10 @@
           <div class="radio-button" id="{{radio_id}}">
             <div class="radio-item">
               <div class="radio-slider"></div>
-              <span class="radio-label">{{radio_label_left}}</span>
+              <img src="{{radio_label_left}}" class="radio-label" />
             </div>
             <div class="radio-item">
-              <span class="radio-label">{{radio_label_right}}</span>
+              <img src="{{radio_label_right}}" class="radio-label" />
             </div>
           </div>
         </div>
@@ -33,7 +41,7 @@
       <img src="res/wechat_donate.png">
     </script>
     <script id="donate-alipay-tpl" type="text/x-handlebars-template">
-      <img src="res/alipay_donate.jpg">
+      <img src="res/alipay_donate.png">
     </script>
     <script id="donate-paypal-tpl" type="text/x-handlebars-template">
       <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" style="text-align: center; padding: 25px 0px;">
@@ -49,17 +57,17 @@
     </div>
     <div id="donate-popover" class="popover top">
       <div class="popover-detail">
-        <div class="donate-thanks">Thank you for your coffee.</div>
+        <div class="donate-thanks"></div>
         <div class="donate-approach"></div>
         <div class="donate-popover-selection">
           <ul>
-            <li>Paypal</li>
+            <li id="donate-paypal"></li>
             <li class="separator">|</li>
-            <li>Alipay</li>
+            <li id="donate-alipay"></li>
             <li class="separator">|</li>
-            <li>WeChat</li>
+            <li id="donate-wechat"></li>
           </ul>
-        </div>        
+        </div>          
       </div>
     </div>
     <div class="container">
@@ -69,21 +77,21 @@
     </div>
     <div id="alternative-panel" class="container"></div>
     <div class="feedback-bar">
-      <span id="donate-btn" class="button">Donate</span>
-      <span id="feedback-btn" class="button">Feedback</span>
+      <span id="donate-btn" class="button"></span>
+      <span id="feedback-btn" class="button"></span>
     </div>
 
     <div id="feedback-container" class="container">
       <div class="row header">
-        <img src="res/tinning_logo_48.png"><span class="title">Provide Feedback</span>
+        <img src="res/tinning_logo_48.png"><span class="title provide-feedback"></span>
       </div>
-      <div class="setting-bar"><span id="setting-btn" class="button">Setting</span></div>
+      <div class="setting-bar"><span id="setting-btn" class="button"></span></div>
       <div class="feedback-panel container">
         <ul>
-          <li><span class="label">Email:</span><input class="mailBox" type="email" tabindex="1"/></li>
-          <li><span class="label">Comments:</span><span class="feedback-message"></span></li>
+          <li><span class="label mail-address"></span><input class="mailBox" type="email" tabindex="1"/></li>
+          <li><span class="label feedback_msg"></span><span class="feedback-message"></span></li>
           <li><textarea class="commentBox" maxlength="1000" rows="10" type="text" placeholder="" tabindex="2"></textarea></li>
-          <li style="text-align: center;"><span class="feedback-submit-btn button" tabindex="3">Send Feedback</span></li>
+          <li style="text-align: center;"><span class="feedback-submit-btn button" tabindex="3"></span></li>
         </ul>
       </div>
     </div>

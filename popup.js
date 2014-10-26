@@ -5,11 +5,10 @@ Array.prototype.removeAt = function (index) {
   return this;
 };
 
-$(document).ready(function(){
-  console.log("ready ");
+var myScroll = null;
 
-  var scrolling = false,
-      myScroll = null;
+$(document).ready(function(){
+  var tinnedList;
 
   removeTab = function (tabId) {
     if (storage.retrieveConfigByKey("close-tab-after-tin")) {
@@ -17,30 +16,10 @@ $(document).ready(function(){
     }
   };
 
-  registerEvent = function () {
-    $("#tin-tabs").click(function () {
-      chrome.tabs.query({currentWindow: true}, function (tabs){
-        // Remain at least one new tab to prevent the window auto close
-        chrome.tabs.create({active: false});
-
-        // Clear the empty tabs
-        // Don't use forEach here, because it will mess the array up after removeAt.
-        for (var i = tabs.length - 1; i >= 0 ; i--) {
-          if (tabs[i].url === "chrome://newtab/") {
-            removeTab(tabs[i].id);
-            tabs.removeAt(i);
-          }
-        }
-        // All the empty tabs should be removed so far
-        
-        // No satisfied tab need to be tinned
-        if (tabs.length === 0) return;
-
-        chrome.runtime.sendMessage({type: "tin", tabs: tabs}, function(response) {
-          me.renderPopup(response.tinnedList);
-        });
-      });
-    });
+  registerInitEvent = function () {
+    var me = this;
+    
+    this.registerTinAction();
 
     $("#setting-tabs").click(function () {
       chrome.tabs.create({url: chrome.runtime.getURL("options.html")});
@@ -77,18 +56,14 @@ $(document).ready(function(){
   // The option popover.
   onOptionClicked = function (element) {
     var margin = 10;
-    // Popopver bottom
+
+    $("#setting-tabs").html(chrome.i18n.getMessage("setting"));
+
     $("#option-arrow").toggleClass("arrow-rotate");
 
     var leftDis = element.currentTarget.x + element.currentTarget.width + margin;
-    $(".popover.right").css("left", leftDis > 0 ? leftDis : 0);
-    $(".popover.right").css("top", element.currentTarget.y);
-
-    if ($("#arrowDnow").hasClass("arrow-rotate")){
-      $(".popover.right").fadeIn();
-    } else {
-      $(".popover.right").fadeOut();
-    }
+    $("#option-popover").css("left", leftDis > 0 ? leftDis : 0);
+    $("#option-popover").css("top", element.currentTarget.y);
 
     if ($("#option-arrow").hasClass("arrow-rotate")) {
       $("#option-popover").fadeIn();
@@ -103,19 +78,17 @@ $(document).ready(function(){
     var me = this;
     chrome.runtime.sendMessage({type: "fetchList"}, function(response) {
       // console.log(JSON.stringify(response.tinnedList));
-      me.renderPopup(response.tinnedList);
+      me.tinnedList = response.tinnedList;
+      me.renderPopup(response.tinnedList, me);
     });
   };
 
-  renderPopup = function (tinnedList) {
+  renderPopup = function (tinnedList, context) {
     var tpl,
+        context = context,
         displayMode = storage.retrieveConfigByKey("display_mode");
 
-    $("#wrapper").html("");
-
-    if (this.myScroll) {
-      this.myScroll.refresh();
-    }
+    $("#scroller").html("");
 
     if (displayMode === "grid") {
       // Using jQuery to fetch the template
@@ -130,32 +103,127 @@ $(document).ready(function(){
     var html = template({"tinnedList": tinnedList});
 
     // Render the html
-    $("#wrapper").html(html);
+    $("#scroller").html(html);
 
-    $("#wrapper").fadeIn(300);
+    // if (context.myScroll === null) {
+      context.updateScroll(context);
 
-    this.myScroll = new IScroll("#wrapper", {
-      scrollbars: true,
-      mouseWheel: true,
-      interactiveScrollbars: true,
-      shrinkScrollbars: "scale",
-      fadeScrollbars: true
+      context.registerUnTinAction(context);
+
+      context.registerScrollEvent(context);
+
+      context.registerIconTooltip(context);
+
+      context.registerScrollItemOptionEvent(tinnedList, context);
+    // }
+  };
+
+  registerUnTinAction = function (context) {
+    // un-Tin tabs
+    $("#scroller > ul > li").on("tap", function (el) {
+      el.stopPropagation();
+      if (el.target.type !== "textarea") {
+        console.log("clicked");
+        var element = $(this);
+        var folderId = element.attr("folderid");
+        chrome.runtime.sendMessage({type: "untin", list: context.tinnedList, folder_id: folderId}, function(response) {
+          console.log(response.removedFolderId);
+          // Remove the related li element
+          chrome.bookmarks.removeTree(response.removedFolderId, function () {
+            element.delay(100).fadeOut(200);
+            element.animate({
+                "opacity" : "0",
+              },{
+                "complete" : function() {
+                  element.remove();
+                }
+              });
+            });
+          });
+        }
+      });
+  },
+
+  registerTinAction = function () {
+    var me = this;
+    $("#tin-tabs").click(function () {
+      chrome.tabs.query({currentWindow: true}, function (tabs){
+        // Remain at least one new tab to prevent the window auto close
+        if (storage.retrieveConfigByKey("close-tab-after-tin")) {
+          chrome.tabs.create({active: false});
+        }
+
+        // Clear the empty tabs
+        // Don't use forEach here, because it will mess the array up after removeAt.
+        for (var i = tabs.length - 1; i >= 0 ; i--) {
+          if (tabs[i].url === "chrome://newtab/") {
+            removeTab(tabs[i].id);
+            tabs.removeAt(i);
+          }
+        }
+        // All the empty tabs should be removed so far
+        
+        // No satisfied tab need to be tinned
+        if (tabs.length === 0) return;
+
+        chrome.runtime.sendMessage({type: "tin", tabs: tabs}, function(response) {
+          me.tinnedList = response.tinnedList;
+          me.renderPopup(response.tinnedList, me);
+        });
+      });
     });
+  },
 
-    this.myScroll.refresh();
+  registerScrollItemOptionEvent = function (tinnedList, context) {
+    $("#scroller > ul > li .tabs-tools")
+      .mouseenter(function () {
+        $(this).addClass("rotate-loading");
+      })
+      .mouseleave(function () {
+        $(this).removeClass("rotate-loading");
+      })
+      .on("tap", function (e) {
+        // Use event.stopPropagation() to prevents the event from bubbling up the DOM tree.
+        e.stopPropagation();
+        var pendingRemoveLi = $(this).parent().parent();
+        var folderId = $(this).attr("folderid");
+        var collectItem = null;
 
-    this.myScroll.on("scrollStart", function (){
-      this.scrolling = true;
-      setTimeout(function () {
-        this.scrolling = true;
-      }, 100);
-    });
-    this.myScroll.on("scrollEnd", function () {
-      setTimeout(function () {
-        this.scrolling = false;
-      }, 50);
-    });
+        for (var i = 0; i < tinnedList.length; i++) {
+          var bookmarkFolder = tinnedList[i];
+          if (bookmarkFolder.id === folderId) {
+            collectItem = bookmarkFolder;
+            tinnedList.removeAt(i);
+            break;
+          }
+        }
 
+        if (collectItem !== null) {
+          // Prepare the urls to be removed
+          var tobeRemoveUrls = [];
+          collectItem.item.forEach(function (item) {
+            tobeRemoveUrls.push(item.url);
+          });
+
+          // Remove the real bookmarks
+          chrome.bookmarks.removeTree(folderId, function () {
+            storage.removeOffsetsByUrls(tobeRemoveUrls);
+
+            // Remove this item on popup
+            pendingRemoveLi.delay(100).fadeOut(300);
+            pendingRemoveLi.animate({
+                "opacity" : "0",
+              },{
+              "complete" : function() {
+                pendingRemoveLi.remove();
+                context.myScroll.refresh();
+              }
+            });
+          });
+        }
+      });
+  },
+  registerIconTooltip = function  (context) {
     $(".icon-wrapper img").hover(
       function (element) {
         if ($(this).attr("tip") !== "") {
@@ -177,7 +245,9 @@ $(document).ready(function(){
         $("#icon-tooltips-popover").html("");
       }
     );
+  },
 
+  registerScrollEvent = function (context) {
     $("#scroller > ul > li").hover(
         function () {
           $(this).addClass("hover");
@@ -189,76 +259,6 @@ $(document).ready(function(){
         }
       );
 
-      // un-Tin tabs
-    $("#scroller > ul > li").click(function (e) {
-      if (!this.scrolling && e.target.type !== "textarea") {
-        var element = $(this);
-        var folderId = element.attr("folderid");
-        chrome.runtime.sendMessage({type: "untin", folder_id: folderId}, function(response) {
-          console.log(response);
-          // Remove the related li element
-          chrome.bookmarks.removeTree(collectItem.item.id, function () {
-            el.delay(100).fadeOut(500);
-            el.animate({
-                "opacity" : "0",
-              },{
-                "complete" : function() {
-                  el.remove();
-                }
-              });
-            });
-          });
-        }
-      });
-
-    $("#scroller > ul > li .tabs-tools")
-      .mouseenter(function () {
-        $(this).addClass("rotate-loading");
-      })
-      .mouseleave(function () {
-        $(this).removeClass("rotate-loading");
-      })
-      .click(function (e) {
-        // Use event.stopPropagation() to prevents the event from bubbling up the DOM tree.
-        e.stopPropagation();
-        var pendingRemoveLi = $(this).parent().parent();
-        var folderId = $(this).attr("folderid");
-        var collectItem = null;
-
-        for (var i = 0; i < tinnedList.length; i++) {
-          var bookmarkFolder = tinnedList[i];
-          if (bookmarkFolder.item.id === folderId) {
-            collectItem = bookmarkFolder;
-            tinnedList.removeAt(i);
-            break;
-          }
-        }
-
-        if (collectItem !== null) {
-          // Prepare the urls to be removed
-          var tobeRemoveUrls = [];
-          collectItem.item.forEach(function (item) {
-            tobeRemoveUrls.push(item.url);
-          });
-
-          // Remove the real bookmarks
-          chrome.bookmarks.removeTree(folderId, function () {
-            storage.removeOffsetsByUrls(tobeRemoveUrls);
-
-            // Remove this item on popup
-            pendingRemoveLi.delay(100).fadeOut(500);
-            pendingRemoveLi.animate({
-                "opacity" : "0",
-              },{
-              "complete" : function() {
-                pendingRemoveLi.remove();
-                this.myScroll.refresh();
-              }
-            });
-          });
-        }
-      });
-
     $("#scroller > ul > li textarea")
       .keyup(function (e) {
         var value = e.currentTarget.value;
@@ -267,7 +267,29 @@ $(document).ready(function(){
         // Update the folder name
         chrome.bookmarks.update(folderId, {"title": value});
       });
-  };
+  },
+
+  updateScroll = function (context) {
+    if (context.myScroll === null) {
+      context.myScroll = new IScroll("#wrapper", {
+        scrollbars: true,
+        tap: true,
+        mouseWheel: true,
+        interactiveScrollbars: true,
+        shrinkScrollbars: "scale",
+        fadeScrollbars: true
+      });
+
+      context.myScroll.on("scrollStart", function () {
+        console.log("start");
+      });
+      context.myScroll.on("scrollEnd", function () {
+        console.log("end");
+      });
+    }
+
+    context.myScroll.refresh();
+  },
 
   syncConfig = function () {
     this.configs = storage.iniConfigs();
@@ -283,7 +305,7 @@ $(document).ready(function(){
   syncConfig();
   
   // Register all the event first.
-  registerEvent();
+  registerInitEvent();
 
   // Render the popup page.
   retrieveTinnedList();

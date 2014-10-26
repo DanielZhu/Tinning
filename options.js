@@ -20,58 +20,60 @@ Array.prototype.contains = function (item, compareFields) {
 };
 $(document).ready(function(){
 
-  var optionsArray = [
+  var optionsRadioButtonArray = [
     {
        radio_id: "display-mode",
-       label: "Display Mode",
-       radio_label_left: "Grid",
-       radio_label_right: "List",
-       tooltips: "Display mode in popup page: Grid or List."
+       label: chrome.i18n.getMessage("displayMode"),
+       radio_label_left: "res/grid.png",
+       radio_label_right: "res/list.png",
+       tooltips: chrome.i18n.getMessage("displayModeTooltips")
+    }
+  ];
+  var toggleButtonArray = [
+    {
+       toggle_id: "close-tab-after-tin",
+       label: chrome.i18n.getMessage("closeTabAfterTin"),
+       tooltips: chrome.i18n.getMessage("closeTabAfterTinTooltips")
     },
     {
-       radio_id: "close-tab-after-tin",
-       label: "Close Tab After Tin",
-       radio_label_left: "Yes",
-       radio_label_right: "No",
-       tooltips: "We will close all the tabs in the chrome window as soon as you tin them."
+       toggle_id: "open-tabs-in-new-window",
+       label: chrome.i18n.getMessage("openTabsInNewWindow"),
+       tooltips: chrome.i18n.getMessage("openTabsInNewWindowTooltips")
     },
     {
-       radio_id: "open-tabs-in-new-window",
-       label: "Open Tabs In New Window",
-       radio_label_left: "Yes",
-       radio_label_right: "No",
-       tooltips: "If enabled, all the tabs will be open in a totally new Google Chrome window."
+       toggle_id: "send-usage-statistics",
+       label: chrome.i18n.getMessage("automaticallySendUsageStatistics"),
+       tooltips: chrome.i18n.getMessage("automaticallySendUsageStatisticsTooltips")
     },
     {
-       radio_id: "send-usage-statistics",
-       label: "Automatically send usage statistics",
-       radio_label_left: "Yes",
-       radio_label_right: "No",
-       tooltips: "If enabled, it will send anonymous data to the remote server in the background, such as the version of your Google Chrome, the version of Tinning, operation platform and the total numbers of tinned and un-tinned tabs. We will not collect your personal data."
-    },
-    {
-       radio_id: "scroll-to-the-last-position",
-       label: "Scroll to the last position after un-Tin tabs",
-       radio_label_left: "Yes",
-       radio_label_right: "No",
-       tooltips: "If enabled, the page which was tinned to Tinning will scroll to the last position when you open it again."
+       toggle_id: "scroll-to-the-last-position",
+       label: chrome.i18n.getMessage("scrollToTheLastPositionAfterUnTinTabs"),
+       tooltips: chrome.i18n.getMessage("scrollToTheLastPositionAfterUnTinTabsTooltips")
     }
   ];
 
   var renderOptionPage = function () {
     // Using jQuery to fetch the template
-    var tpl = $("#option-radio-tpl").html();
+    var optionRadiosTpl = $("#option-radio-tpl").html();
+    var toggleTpl = $("#toggle-radio-tpl").html();
 
     $("#alternative-panel").html("");
 
     // Precompile the template
-    var template = Handlebars.compile(tpl);
+    var optionRadiosTemplate = Handlebars.compile(optionRadiosTpl);
+    var toggleTemplate = Handlebars.compile(toggleTpl);
 
     var alternativePanelHtml = "";
-    for (var i = 0; i < optionsArray.length; i++) {
+    for (var i = 0; i < optionsRadioButtonArray.length; i++) {
       // Match the data
-      var simpleHtml = template(optionsArray[i]);
-      alternativePanelHtml += simpleHtml;
+      var html = optionRadiosTemplate(optionsRadioButtonArray[i]);
+      alternativePanelHtml += html;
+    };
+
+    for (var i = 0; i < toggleButtonArray.length; i++) {
+      // Match the data
+      var html = toggleTemplate(toggleButtonArray[i]);
+      alternativePanelHtml += html;
     };
 
     // Render the html
@@ -80,6 +82,21 @@ $(document).ready(function(){
     var manifestObj = chrome.runtime.getManifest();
     
     $(".tinning-info").html(manifestObj.version);
+
+    $(".donate-thanks").html(chrome.i18n.getMessage("thanksFeedback"));
+    $("#donate-btn").html(chrome.i18n.getMessage("donate"));
+    $("#feedback-btn").html(chrome.i18n.getMessage("feedback"));
+    $(".provide-feedback").html(chrome.i18n.getMessage("provideFeedback"));
+    $("#setting-btn").html(chrome.i18n.getMessage("setting"));
+    $(".mail-address").html(chrome.i18n.getMessage("mailAddress"));
+    $(".feedback_msg").html(chrome.i18n.getMessage("feedback"));
+    $(".feedback-submit-btn").html(chrome.i18n.getMessage("sendFeedback"));
+
+    $("#donate-paypal").html(chrome.i18n.getMessage("paypal"));
+    $("#donate-wechat").html(chrome.i18n.getMessage("wechat"));
+    $("#donate-alipay").html(chrome.i18n.getMessage("alipay"));
+
+    $("title").html(chrome.i18n.getMessage("optionHtmlTitle"));
 
     registerEvents();
     syncConfig();
@@ -96,28 +113,28 @@ $(document).ready(function(){
 
     reqObj.mail = $('.mailBox').val();
     reqObj.feedback = $('.commentBox').val();
+    reqObj.product_id = "1";    
     reqObj.created_at = currentTime;    
 
     if (reqObj.mail.length === 0 || reqObj.feedback.length === 0) {
-      setResponseMsg("Sorry! Please fill in both fields.", false);
+      setResponseMsg(chrome.i18n.getMessage("feedbackFeildsEmptyMsg"), false);
     } else {
       $.ajax({
-        url: "http://www.staydan.com/tinning/api/index.php/addFeedback",
-            type:'Post',
-            data:JSON.stringify(reqObj),
-            dataType:'json',
-            cache:false,
+          url: "http://www.staydan.com/tinning/api/index.php/addFeedback",
+          type:'Post',
+          data:reqObj,
+          cache:false,
         success : function(obj) {
-          var state = obj.result;
+          var state = JSON.parse(obj).result;
           if(state === "Success"){
-            setResponseMsg("Thanks for your feedback, I'll read it in detail and reply you ASAP!", true);
+            setResponseMsg(chrome.i18n.getMessage("feedbackSuccessMsg"), true);
           } else {
             var errorMsg = obj.errorMsg;
             setResponseMsg("Sorry! " + errorMsg, false);
           }
         },
         error: function(){
-          setResponseMsg("Sorry! Something wrong happened, it's definitely my mistake.", false);
+          setResponseMsg(chrome.i18n.getMessage("feedbackFailureMsg"), false);
         }
       });
     }
@@ -132,10 +149,10 @@ $(document).ready(function(){
       $("#display-mode .radio-slider").toggleClass("radio-slider-move", false);
     }
 
-    $("#open-tabs-in-new-window .radio-slider").toggleClass("radio-slider-move", configs["open-tabs-in-new-window"]);
-    $("#close-tab-after-tin .radio-slider").toggleClass("radio-slider-move", configs["close-tab-after-tin"]);
-    $("#send-usage-statistics .radio-slider").toggleClass("radio-slider-move", configs["send-usage-statistics"]);
-    $("#scroll-to-the-last-position .radio-slider").toggleClass("radio-slider-move", configs["scroll-to-the-last-position"]);
+    $("#open-tabs-in-new-window").toggleClass("on", configs["open-tabs-in-new-window"]);
+    $("#close-tab-after-tin").toggleClass("on", configs["close-tab-after-tin"]);
+    $("#send-usage-statistics").toggleClass("on", configs["send-usage-statistics"]);
+    $("#scroll-to-the-last-position").toggleClass("on", configs["scroll-to-the-last-position"]);
   };
 
   var registerEvents = function () {
@@ -145,27 +162,27 @@ $(document).ready(function(){
       storage.setConfigValueByKey("display_mode", (!displayMode ? "grid" : "list"));
     });
 
-    $("#open-tabs-in-new-window .radio-item").click(function () {
-      var openTabsInNewWindow = $("#open-tabs-in-new-window .radio-slider").hasClass("radio-slider-move");
-      $("#open-tabs-in-new-window .radio-slider").toggleClass("radio-slider-move", !openTabsInNewWindow);
+    $("#open-tabs-in-new-window").click(function () {
+      var openTabsInNewWindow = $("#open-tabs-in-new-window").hasClass("on");
+      $("#open-tabs-in-new-window").toggleClass("on", !openTabsInNewWindow);
       storage.setConfigValueByKey("open-tabs-in-new-window", !openTabsInNewWindow);
     });
 
-    $("#close-tab-after-tin .radio-item").click(function () {
-      var closeTabAfterTin = $("#close-tab-after-tin .radio-slider").hasClass("radio-slider-move");
-      $("#close-tab-after-tin .radio-slider").toggleClass("radio-slider-move", !closeTabAfterTin);
+    $("#close-tab-after-tin").click(function () {
+      var closeTabAfterTin = $("#close-tab-after-tin").hasClass("on");
+      $("#close-tab-after-tin").toggleClass("on", !closeTabAfterTin);
       storage.setConfigValueByKey("close-tab-after-tin", !closeTabAfterTin);
     });
 
-    $("#send-usage-statistics .radio-item").click(function () {
-      var closeTabAfterTin = $("#send-usage-statistics .radio-slider").hasClass("radio-slider-move");
-      $("#send-usage-statistics .radio-slider").toggleClass("radio-slider-move", !closeTabAfterTin);
+    $("#send-usage-statistics").click(function () {
+      var closeTabAfterTin = $("#send-usage-statistics").hasClass("on");
+      $("#send-usage-statistics").toggleClass("on", !closeTabAfterTin);
       storage.setConfigValueByKey("send-usage-statistics", !closeTabAfterTin);
     });
 
-    $("#scroll-to-the-last-position .radio-item").click(function () {
-      var scrollToLastPosition = $("#scroll-to-the-last-position .radio-slider").hasClass("radio-slider-move");
-      $("#scroll-to-the-last-position .radio-slider").toggleClass("radio-slider-move", !scrollToLastPosition);
+    $("#scroll-to-the-last-position").click(function () {
+      var scrollToLastPosition = $("#scroll-to-the-last-position").hasClass("on");
+      $("#scroll-to-the-last-position").toggleClass("on", !scrollToLastPosition);
       storage.setConfigValueByKey("scroll-to-the-last-position", !scrollToLastPosition);
     });
     $("#feedback-btn").click(function (element) {
@@ -225,7 +242,7 @@ $(document).ready(function(){
             if (childLiElements[i].innerText !== "|") {
               if (childLiElements[i].innerText === $(this)[0].innerText) {
                 childLiElements[i].className = "hover";
-                var tpl = $("#donate-" + $(this)[0].innerText.toLowerCase() + "-tpl").html();
+                var tpl = $("#donate-" + $(this).attr("id").split("-")[1] + "-tpl").html();
 
                 $(".donate-approach").html(tpl);
               } else {
@@ -239,7 +256,7 @@ $(document).ready(function(){
         }
       );
 
-    $(".radio-button").hover(
+    $(".radio-button, .toggle-button").hover(
       function (element) {
         var leftDis = $("body").offset().left + element.currentTarget.offsetLeft + element.currentTarget.offsetWidth + 5;
         $("#option-tooltips-popover").css("left", leftDis > 0 ? leftDis : 0);
@@ -247,9 +264,16 @@ $(document).ready(function(){
 
         var iconTooltipsSource = "<div class='popover-detail'>{{title}}</div>";
         var iconTooltipsTemplate = Handlebars.compile(iconTooltipsSource);
-        var appearAt = optionsArray.contains({radio_id:  $(this).attr("id")}, ["radio_id"]);
+        var appearAt = -1, configArray = null;
+        if (element.currentTarget.className.indexOf("toggle-button") >= 0) {
+          appearAt = toggleButtonArray.contains({toggle_id:  $(this).attr("id")}, ["toggle_id"]);
+          configArray = toggleButtonArray;
+        } else if (element.currentTarget.className.indexOf("radio-button") >= 0){
+          appearAt = optionsRadioButtonArray.contains({radio_id:  $(this).attr("id")}, ["radio_id"]);
+          configArray = optionsRadioButtonArray;
+        }
         if (appearAt !== -1) {
-          var context = {title: optionsArray[appearAt].tooltips};
+          var context = {title: configArray[appearAt].tooltips};
           var html = iconTooltipsTemplate(context);
           
           $("#option-tooltips-popover").html(html);

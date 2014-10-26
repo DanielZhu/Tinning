@@ -19,60 +19,56 @@
   </head>
   <body>
     <script id="tab-collection-grid-tpl" type="text/x-handlebars-template">
-      <div id="scroller">
-        <ul class="tab-collection-grid">
-          {{#each tinnedList }}
-          <li folderId="{{item.id}}">
-            <div class="tab-collection-grid-item">
-              <div class="tabs-count">
-                <span class="count">{{item.length}}</span>
-              </div>
-              <div class="tabs-tools" folderId="{{item.id}}">
-                <img src="res/close.png">
-              </div>
-              <div class="content">
-                <textarea folderId="{{item.id}}" class="title-input" maxlength="100" rows="1" type="text" placeholder="Add a title..." tabindex="0" title="{{item.title}}">{{item.title}}</textarea>
-                <div class="icon-wrapper">
-                  <ul>
-                    {{#each this.item }}
-                      <li><img src="chrome://favicon/{{url}}" tip="{{title}}"></li>
-                    {{/each}}
-                  </ul>
-                </div>
+      <ul class="tab-collection-grid">
+        {{#each tinnedList }}
+        <li folderId="{{id}}">
+          <div class="tab-collection-grid-item">
+            <div class="tabs-count">
+              <span class="count">{{item.length}}</span>
+            </div>
+            <div class="tabs-tools" folderId="{{id}}">
+              <img src="res/close.png">
+            </div>
+            <div class="content">
+              <textarea folderId="{{id}}" class="title-input" maxlength="100" rows="1" type="text" placeholder="Add a title..." tabindex="0" title="{{title}}">{{title}}</textarea>
+              <div class="icon-wrapper">
+                <ul>
+                  {{#each this.item }}
+                    <li><img src="chrome://favicon/{{url}}" tip="{{title}}"></li>
+                  {{/each}}
+                </ul>
               </div>
             </div>
-          </li>
-          {{/each}}
-        </ul>
-      </div>
+          </div>
+        </li>
+        {{/each}}
+      </ul>
     </script>
     <script id="tab-collection-list-tpl" type="text/x-handlebars-template">  
-      <div id="scroller">
-        <ul class="tab-collection-list">
-          {{#each tinnedList }}
-          <li folderId="{{item.id}}">
-            <div class="tab-collection-list-item">
-              <div class="tabs-count">
-                <span class="count">{{item.length}}</span>
-              </div>
-              <div class="tabs-tools" folderId="{{item.id}}">
-                <img src="res/close.png">
-              </div>
-              <ul>
-                <li>
-                  <textarea folderId="{{item.id}}" class="title-input" maxlength="100" rows="1" type="text" placeholder="Add a title..." tabindex="0" title="{{item.title}}">{{item.title}}</textarea>
-                </li>
-                {{#each this.item }}
-                  <li>
-                    <div class="title"><img src="chrome://favicon/{{url}}" title="{{title}}">{{title}}</div>
-                  </li>
-                {{/each}}
-              </ul>
+      <ul class="tab-collection-list">
+        {{#each tinnedList }}
+        <li folderId="{{id}}">
+          <div class="tab-collection-list-item">
+            <div class="tabs-count">
+              <span class="count">{{item.length}}</span>
             </div>
-          </li>
-          {{/each}}
-        </ul>
-      </div>
+            <div class="tabs-tools" folderId="{{id}}">
+              <img src="res/close.png">
+            </div>
+            <ul>
+              <li>
+                <textarea folderId="{{id}}" class="title-input" maxlength="100" rows="1" type="text" placeholder="Add a title..." tabindex="0" title="{{title}}">{{title}}</textarea>
+              </li>
+              {{#each this.item }}
+                <li>
+                  <div class="title"><img src="chrome://favicon/{{url}}" title="{{title}}">{{title}}</div>
+                </li>
+              {{/each}}
+            </ul>
+          </div>
+        </li>
+        {{/each}}
+      </ul>
     </script>
     <div class="mask"></div>
     <div id="icon-tooltips-popover" class="popover bottom">
@@ -80,15 +76,15 @@
     </div>
     <div id="option-popover" class="popover right">
       <div class="popover-detail">
-        <div class="row"><span id="setting-tabs" class="button">Setting</span></div>
+        <div class="row"><span id="setting-tabs" class="button"></span></div>
         <div id="display-mode" class="row">
           <div class="radio-button">
             <div class="radio-item">
               <div class="radio-slider"></div>
-              <span class="radio-label">Grid</span>
+              <img src="res/grid.png" class="radio-label" />
             </div>
             <div class="radio-item">
-                <span class="radio-label">List</span>
+              <img src="res/list.png" class="radio-label" />
             </div>
           </div>
         </div>
@@ -105,7 +101,10 @@
       <img src="res/tinning_logo_48.png">
       <div class="brand">Tinning</div>
     </div>
-    <div id="wrapper" class="fade-in-wrapper"></div>
+    <div id="wrapper" class="fade-in-wrapper">
+      <div id="scroller">
+      </div>
+    </div>
   </body>
 </html>
 

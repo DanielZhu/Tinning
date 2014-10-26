@@ -65,8 +65,10 @@ Ajax.prototype.post = function (inParams) {
 
   //set headers
   xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+  xhr.setRequestHeader("charset", "UTF-8");
+
   xhr.send(inParams.body);
-  return xhr;  
+  return xhr;
 };
 
 function Tinning() {
@@ -132,6 +134,42 @@ Tinning.prototype = {
     chrome.browserAction.setBadgeText(bargeOption);
   },
 
+  /**
+   * Sends an XHR GET request to send out the anonymously usage data. The
+   * XHR's 'onload' event is hooks up to the 'showPhotos_' method.
+   *
+   * @public
+   */
+  _sendUsageData: function (actionCode, tabCounts) {
+    // {"platform": "win","tinning_version":"1.0.0","chrome_version":"1.0.0","action": 0,"number": 10}
+    var reqObj = {};
+    var now = new Date();
+    // 2014-10-22 02:56:17
+    var currentTime = now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + now.getDate() + " " + now.getHours() + ":" + now.getMinutes() + ":" + now.getSeconds();
+
+    reqObj.platform = this.platform;
+    reqObj.chrome_version = this.chromeVersion;
+    reqObj.tinning_version = this.tinningVersion;
+    reqObj.action = actionCode;
+    reqObj.number = tabCounts;
+    reqObj.created_at = currentTime;
+
+    var requestBody = "", i = 0;
+    for (var key in reqObj){
+      requestBody += (key + "=" + reqObj[key]);
+      if (i !== 5) {
+        requestBody += "&";
+      }
+      i++;
+    }
+    var ajax = new Ajax();
+    ajax.post({
+      url: "http://www.staydan.com/tinning/api/index.php/postUsageData",
+      body: requestBody,
+      callback: {success: null, failure: null}
+    });
+  },
+
   // Callback to tin tabs
   tinningTabs: function (pendingTabs, me, sendResponse) {
     // if continue...
@@ -171,84 +209,64 @@ Tinning.prototype = {
           // No satisfied tab need to be tinned
           if (pendingTabs.length === 0) {
             // Refresh the popup
-            me.fetchTinningFolderContent(sendResponse);
+            // me.fetchTinningFolderContent(sendResponse);
           } else {
             // Collect the offset top value for each tab, here we should have no more special tabs.
             // Process all the loading tabs
             for (var k = pendingTabs.length - 1; k >= 0 ; k--) {
-              if (pendingTabs[k].status !== "complete") {
-                console.log(pendingTabs[k].status + " " + pendingTabs[k].url);
-                removeTab(pendingTabs[k].id);
-                pendingTabs.removeAt(k);
+              // If scrollToLastPosition is disabled, remove all the tabs.
+              // Otherwise, close the tabs which are not complete.
+              if (storage.retrieveConfigByKey("scroll-to-the-last-position")) {
+                if (pendingTabs[k].status !== "complete") {
+                  console.log(pendingTabs[k].status + " " + pendingTabs[k].url);
+                  removeTab(pendingTabs[k].id);
+                  pendingTabs.removeAt(k);
+                }
+              } else {
+                  console.log(pendingTabs[k].status + " " + pendingTabs[k].url);
+                  removeTab(pendingTabs[k].id);
+                  pendingTabs.removeAt(k);
               }
             }
 
-            pendingTabs.asyncEach(function (record, resume) {
-              console.log(record.status + " " + record.url);
-              chrome.tabs.executeScript(record.id, {code: "document.getElementsByTagName('body')[0].scrollTop;"}, function (results) {
-                console.log(results[0] + " " + record.url);
+            if (storage.retrieveConfigByKey("scroll-to-the-last-position")) {
+              pendingTabs.asyncEach(function (record, resume) {
+                console.log(record.status + " " + record.url);
+                chrome.tabs.executeScript(record.id, {code: "var bodyEle = document.getElementsByTagName('body'); if(bodyEle!== undefined && bodyEle.length>0){bodyEle[0].scrollTop;}"}, function (results) {
 
-                if (results) {
-                  storage.addOffsetsItems({url: record.url, top: results[0]});
-                }
+                  if (results && results[0] !== 0) {
+                    console.log(results[0] + " " + record.url);
+                    storage.addOffsetsItems({url: record.url, top: results[0]});
+                  }
 
-                removeTab(record.id);
+                  removeTab(record.id);
 
-                resume();
+                  resume();
+                });
               });
-            });
+            }
           }
+
+          // No need to render the popup again as it will be disappear.
         } catch (e) {
           console.log(e);
         } finally {
-          me.fetchTinningFolderContent(sendResponse);
+          if (!storage.retrieveConfigByKey("close-tab-after-tin")) {
+            me.fetchTinningFolderContent(sendResponse);
+          }
         }
       }
     );
   },
 
-  /**
-   * Sends an XHR GET request to send out the anonymously usage data. The
-   * XHR's 'onload' event is hooks up to the 'showPhotos_' method.
-   *
-   * @public
-   */
-  _sendUsageData: function (actionCode, tabCounts) {
-    // {"platform": "win","tinning_version":"1.0.0","chrome_version":"1.0.0","action": 0,"number": 10}
-    var reqObj = {};
-    var now = new Date();
-    // 2014-10-22 02:56:17
-    var currentTime = now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + now.getDate() + " " + now.getHours() + ":" + now.getMinutes() + ":" + now.getSeconds();
-
-    reqObj.platform = this.platform;
-    reqObj.chrome_version = this.chromeVersion;
-    reqObj.tinning_version = this.tinningVersion;
-    reqObj.action = actionCode;
-    reqObj.number = tabCounts;
-    reqObj.created_at = currentTime;
-    
-    var postBody = "";
-    for (var index in reqObj) {
-      if (postBody.length > 0) postBody += "&"; 
-      postBody += (index + "=" + reqObj[index]);
-    }
-
-    var ajax = new Ajax();
-    ajax.post({
-      url: "http://www.staydan.com/tinning/api/index.php/postUsageData",
-      body: JSON.stringify(reqObj),
-      callback: {success: null, failure: null}
-    });
-  },
-
   // Re-open the tinned tabs
-  unTinningTabs: function (folderId) {
-    var collectItem = [];
+  unTinningTabs: function (list, folderId, sendResponse) {
+    var collectItem = null;
 
     // Find out the correct folder and remove from the memory
-    for (var i = 0; i < this.tinnedList.length; i++) {
-      var bookmarkFolder = this.tinnedList[i];
-      if (bookmarkFolder.item.id === folderId) {
+    for (var i = 0; i < list.length; i++) {
+      var bookmarkFolder = list[i];
+      if (bookmarkFolder.id === folderId) {
         collectItem = bookmarkFolder;
 
         // Enabled: Send the count of tabs usage data to server anonymously
@@ -256,7 +274,7 @@ Tinning.prototype = {
           this._sendUsageData("1", collectItem.item.length);
         }
 
-        this.tinnedList.removeAt(i);
+        list.removeAt(i);
         break;
       }
     }
@@ -264,21 +282,23 @@ Tinning.prototype = {
     // Recover the tabs
     var urls = [];
 
-    // if open in new window, collect urls, otherwise, open them in current window
-    collectItem.item.forEach(function (tab) {
-      if (storage.retrieveConfigByKey("open-tabs-in-new-window")) {
-        urls.push(tab.url);
-      } else {
-        chrome.tabs.create({url: tab.url, active: false});
+    if (collectItem !== null) {
+      // if open in new window, collect urls, otherwise, open them in current window
+      collectItem.item.forEach(function (tab) {
+        if (storage.retrieveConfigByKey("open-tabs-in-new-window")) {
+          urls.push(tab.url);
+        } else {
+          chrome.tabs.create({url: tab.url, active: false});
+        }
+      });
+
+      // Enabled: open all the tabs in a new window
+      if (urls.length > 0 && storage.retrieveConfigByKey("open-tabs-in-new-window")) {
+        chrome.windows.create({url: urls, focused: true, incognito: false});
       }
-    });
 
-    // Enabled: open all the tabs in a new window
-    if (urls.length > 0 && storage.retrieveConfigByKey("open-tabs-in-new-window")) {
-      chrome.windows.create({url: urls, focused: true, incognito: false});
+      sendResponse(folderId);
     }
-
-    this.tinnedList.removeAt(folderId);
   },
 
   _refreshBadge: function () {
@@ -310,8 +330,6 @@ Tinning.prototype = {
         for (var i = 0; i < tinningBookmarks.length; i++) {
           var tinned = tinningBookmarks[i];
           tinnedListItem = [];
-          tinnedListItem.title = tinned.title;
-          tinnedListItem.id = tinned.id;
           if (tinned.children.length > 0) {
             // Iterate all the tinned item children
             for (var j = 0; j < tinned.children.length; j++) {
@@ -322,7 +340,7 @@ Tinning.prototype = {
               tinnedListItem.push(item);
             }
           }
-          me.tinnedList.push({"item": tinnedListItem});
+          me.tinnedList.push({item: tinnedListItem, id: tinned.id, title: tinned.title});
         }
 
         sendResponse(me.tinnedList);
@@ -335,7 +353,7 @@ Tinning.prototype = {
         // Collect the offset top value for each tab, give up if the page is not normal
         if (tab.status === "complete" && tab.url.indexOf("chrome") !== 0) {
           var savedOffset = storage.fetchOffsetsByUrl(tab.url);
-          if (savedOffset && savedOffset.top) {
+          if (savedOffset !== null && savedOffset.top !== 0) {
             chrome.tabs.executeScript(tabId, {code: "document.getElementsByTagName('body')[0].scrollTop=" + savedOffset.top}, function (results) {
               storage.removeOffsetsByUrls([tab.url]);
             });
@@ -356,9 +374,13 @@ function entryPoint () {
           tinning.tinningTabs(request.tabs, tinning, function(list) {
             sendResponse({tinnedList: list});
           });
+          return true;
           break;
-        case "untin": 
-          tinning.unTinningTabs(request.folder_id);
+        case "untin":
+          tinning.unTinningTabs(request.list, request.folder_id, function(id) {
+            sendResponse({removedFolderId: id});
+          });
+          return true;
           break;
         case "fetchList":
           tinning.fetchTinningFolderContent(function(list) {
