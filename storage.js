@@ -67,7 +67,7 @@ var storage = {
 
   // Retrieve all key-value offsets.
   fetchOffsetsByUrl: function (url) {
-    var savedOffset = [];
+    var savedOffset = null;
     var offsetsList = JSON.parse(storage.retrieveStorageByKey(storage.autoScrollConfigKey));
 
     for (var i = 0; i < offsetsList.length; i++) {
@@ -84,10 +84,13 @@ var storage = {
     var offsetsList = JSON.parse(storage.retrieveStorageByKey(storage.autoScrollConfigKey));
     var addUniqueOffsetItem = function (item) {
       var appearAt = offsetsList.contains(item, ["url"]);
+
+      // The same config is here, so just update he value of top is enough.
       if (appearAt !== -1) {
-        offsetsList.removeAt(appearAt);
+        offsetsList[appearAt].top = item.top;
+      } else {
+        offsetsList.push(item);
       }
-      offsetsList.push(item);
     };
 
     if (Object.prototype.toString.call(items) === "[object Array]") {
@@ -100,7 +103,7 @@ var storage = {
 
   removeOffsetsByUrls: function (urls) {
     var offsetsList = JSON.parse(storage.retrieveStorageByKey(storage.autoScrollConfigKey));
-    for (var i = 0; i < offsetsList.length; i++) {
+    for (var i = offsetsList.length - 1; i >= 0; i--) {
       if (urls.indexOf(offsetsList[i].url) !== -1) {
         offsetsList.splice(i , 1);
       }
