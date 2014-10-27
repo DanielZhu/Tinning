@@ -123,11 +123,11 @@ $(document).ready(function(){
     $("#scroller > ul > li").on("tap", function (el) {
       el.stopPropagation();
       if (el.target.type !== "textarea") {
-        console.log("clicked");
+        // console.log("clicked");
         var element = $(this);
         var folderId = element.attr("folderid");
         chrome.runtime.sendMessage({type: "untin", list: context.tinnedList, folder_id: folderId}, function(response) {
-          console.log(response.removedFolderId);
+          // console.log(response.removedFolderId);
           // Remove the related li element
           chrome.bookmarks.removeTree(response.removedFolderId, function () {
             element.delay(100).fadeOut(200);
@@ -280,12 +280,12 @@ $(document).ready(function(){
         fadeScrollbars: true
       });
 
-      context.myScroll.on("scrollStart", function () {
-        console.log("start");
-      });
-      context.myScroll.on("scrollEnd", function () {
-        console.log("end");
-      });
+      // context.myScroll.on("scrollStart", function () {
+      //   console.log("start");
+      // });
+      // context.myScroll.on("scrollEnd", function () {
+      //   console.log("end");
+      // });
     }
 
     context.myScroll.refresh();

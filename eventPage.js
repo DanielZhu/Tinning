@@ -218,12 +218,12 @@ Tinning.prototype = {
               // Otherwise, close the tabs which are not complete.
               if (storage.retrieveConfigByKey("scroll-to-the-last-position")) {
                 if (pendingTabs[k].status !== "complete") {
-                  console.log(pendingTabs[k].status + " " + pendingTabs[k].url);
+                  // console.log(pendingTabs[k].status + " " + pendingTabs[k].url);
                   removeTab(pendingTabs[k].id);
                   pendingTabs.removeAt(k);
                 }
               } else {
-                  console.log(pendingTabs[k].status + " " + pendingTabs[k].url);
+                  // console.log(pendingTabs[k].status + " " + pendingTabs[k].url);
                   removeTab(pendingTabs[k].id);
                   pendingTabs.removeAt(k);
               }
@@ -231,11 +231,11 @@ Tinning.prototype = {
 
             if (storage.retrieveConfigByKey("scroll-to-the-last-position")) {
               pendingTabs.asyncEach(function (record, resume) {
-                console.log(record.status + " " + record.url);
+                // console.log(record.status + " " + record.url);
                 chrome.tabs.executeScript(record.id, {code: "var bodyEle = document.getElementsByTagName('body'); if(bodyEle!== undefined && bodyEle.length>0){bodyEle[0].scrollTop;}"}, function (results) {
 
                   if (results && results[0] !== 0) {
-                    console.log(results[0] + " " + record.url);
+                    // console.log(results[0] + " " + record.url);
                     storage.addOffsetsItems({url: record.url, top: results[0]});
                   }
 
@@ -249,7 +249,7 @@ Tinning.prototype = {
 
           // No need to render the popup again as it will be disappear.
         } catch (e) {
-          console.log(e);
+          // console.log(e);
         } finally {
           if (!storage.retrieveConfigByKey("close-tab-after-tin")) {
             me.fetchTinningFolderContent(sendResponse);
