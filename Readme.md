@@ -6,19 +6,19 @@ Maintainer: [Daniel Zhu](https://github.com/DanielZhu)
 
 ### Previews:
 ---
-*Main view:*
+*Main view:*  
 ![Main View](http://www.staydan.com/sweet/static/imgs/tinning/release_preview_1.png)
 
-*In Detail:*
+*In Detail:*  
 ![In Detail](http://www.staydan.com/sweet/static/imgs/tinning/release_preview_2.png)
 
-*Two Different Display Mode*
+*Two Different Display Mode*  
 ![Two Different Display Mode](http://www.staydan.com/sweet/static/imgs/tinning/release_preview_3.png)
 
-*Option View:*
+*Option View:*  
 ![Option View](http://www.staydan.com/sweet/static/imgs/tinning/release_preview_4.png)
 
-*Tinning + Chrome*
+*Tinning + Chrome*  
 ![Tinning + Chrome](http://www.staydan.com/sweet/static/imgs/tinning/release_preview_5.png)
 
 ### Installing
