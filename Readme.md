@@ -5,10 +5,24 @@ Maintainer: [Daniel Zhu](https://github.com/DanielZhu)
 > A simple extension for Google Chrome allows the user to store all the tab in the current window to this extension. They can re-open them when they want to visit later. 
 
 ### Previews:
------
+---
+*Main view:*
+![Main View](http://www.staydan.com/sweet/static/imgs/tinning/release_preview_1.png)
+
+*In Detail:*
+![In Detail](http://www.staydan.com/sweet/static/imgs/tinning/release_preview_2.png)
+
+*Two Different Display Mode*
+![Two Different Display Mode](http://www.staydan.com/sweet/static/imgs/tinning/release_preview_3.png)
+
+*Option View:*
+![Option View](http://www.staydan.com/sweet/static/imgs/tinning/release_preview_4.png)
+
+*Tinning + Chrome*
+![Tinning + Chrome](http://www.staydan.com/sweet/static/imgs/tinning/release_preview_5.png)
 
 ### Installing
------
+---
 ####From official approach
 Go to [Tinning @Chrome Store](https://chrome.google.com/webstore/detail/tinning/moemebbgcnbmdpnjiaijefhoahhikmec) to install it directly.
 
@@ -20,7 +34,7 @@ Go to [Tinning @Chrome Store](https://chrome.google.com/webstore/detail/tinning/
 5. You got the latest extension
 
 ### Features / Description
------
+---
 - Store all the tabs from the current window by single click.
 - Display the grouped tabs by two mode: **Grid** or **List**.
 - Support giving another folder name to each group.
@@ -36,7 +50,7 @@ You're also allowed to set:
 - Support feedback
 
 ### Thanks To
------
+---
 [ccsukip](https://github.com/ccsukip)  
 Done some testing stuffs and report issues.
 
@@ -46,5 +60,5 @@ Anyway, I want to say thanks to the devloper and his team [7Peers](http://www.7p
 
 
 ### License
------
+---
 MIT @Staydan.com

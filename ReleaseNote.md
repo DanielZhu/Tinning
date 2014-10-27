@@ -1,3 +1,7 @@
+### 1.0.1
+---
+- Remove log
+
 ### 1.0.0
 -----
 - Store all the tabs from the current window by single click.
