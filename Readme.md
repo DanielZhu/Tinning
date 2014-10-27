@@ -1,5 +1,5 @@
 ## Tinning Chrome Extension
--------
+---
 Maintainer: [Daniel Zhu](https://github.com/DanielZhu)
 
 > A simple extension for Google Chrome allows the user to store all the tab in the current window to this extension. They can re-open them when they want to visit later. 
@@ -9,8 +9,8 @@ Maintainer: [Daniel Zhu](https://github.com/DanielZhu)
 
 ### Installing
 -----
-#### From official approach
-Go to [Tinning @Chrome Store](#) to install it directly.
+####From official approach
+Go to [Tinning @Chrome Store](https://chrome.google.com/webstore/detail/tinning/moemebbgcnbmdpnjiaijefhoahhikmec) to install it directly.
 
 #### From the source code here
 1. Clone or download the src
@@ -30,11 +30,12 @@ Go to [Tinning @Chrome Store](#) to install it directly.
 - Scroll to the last position when you re-open them.
 
 You're also allowed to set:
+
 - Close tabs when tin tabs or not
 - Open tabs in new window or not
 - Support feedback
 
-### Thanks
+### Thanks To
 -----
 [ccsukip](https://github.com/ccsukip)  
 Done some testing stuffs and report issues.
