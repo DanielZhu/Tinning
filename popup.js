@@ -267,6 +267,14 @@ $(document).ready(function(){
         // Update the folder name
         chrome.bookmarks.update(folderId, {"title": value});
       });
+
+    $("#scroller > ul > li textarea")
+      .keydown(function (e) {
+        if (e.keyCode === 13) {
+          // Enter keydow
+          $(this).blur();          
+        }
+      });
   },
 
   updateScroll = function (context) {

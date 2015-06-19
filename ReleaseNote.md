@@ -1,3 +1,7 @@
+### 1.0.2
+---
+- Update the extension name from ```Tinning``` to ```Tinng the Tabs``` to make much more sence
+
 ### 1.0.1
 ---
 - Remove log

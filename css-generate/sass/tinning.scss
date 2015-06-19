@@ -12,7 +12,8 @@
 @import "compass/css3/user-interface";
 
 $top-bar-margin: 10px;
-$popup-width: 400px;
+$popup-width: 350px;
+$popup-height: 400px;
 
 html {
   -ms-touch-action: none;
@@ -28,7 +29,7 @@ body {
   font-size: 12px;
   font-family: ubuntu, helvetica, arial;
   width: $popup-width;
-  height: 500px;
+  height: $popup-height;
   // overflow: hidden; /* this is important to prevent the whole page to bounce */
 }
 
