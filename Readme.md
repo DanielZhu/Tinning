@@ -2,20 +2,21 @@
 ---
 Maintainer: [Daniel Zhu](https://github.com/DanielZhu)
 
-> A simple extension for Google Chrome allows the user to store all the tab in the current window to this extension. They can re-open them when they want to visit later. 
+> A simple extension for Google Chrome allows the user to store all the tab in the current window to this extension. They can re-open them when they want to visit later.
 
 ### Previews:
 ---
-*Main view*
+
+*Main view:*
 ![Main View](http://www.staydan.com/sweet/static/imgs/tinning/release_preview_1.png)
 
-*In Detail*
+*In Detail:*
 ![In Detail](http://www.staydan.com/sweet/static/imgs/tinning/release_preview_2.png)
 
 *Two Different Display Mode*
 ![Two Different Display Mode](http://www.staydan.com/sweet/static/imgs/tinning/release_preview_3.png)
 
-*Option View*
+*Option View:*
 ![Option View](http://www.staydan.com/sweet/static/imgs/tinning/release_preview_4.png)
 
 *Tinning + Chrome*
@@ -30,7 +31,7 @@ Go to [Tinning @Chrome Store](https://chrome.google.com/webstore/detail/tinning/
 1. Clone or download the src
 2. Locate to the extesion setting page in Chrome
 3. Enable the *developer mode*
-4. Hit *Load unpacked extension... * 
+4. Hit *Load unpacked extension... *
 5. You got the latest extension
 
 ### Features / Description
