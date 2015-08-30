@@ -10,7 +10,7 @@ var storage = {
 
   // Default configurations.
   configsArray: [
-    {key: "display_mode", value: "grid"}, 
+    {key: "display_mode", value: "grid"},
     {key: "close-tab-after-tin", value: true},
     {key: "open-tabs-in-new-window", value: true},
     {key: "send-usage-statistics", value: true},
@@ -36,10 +36,10 @@ var storage = {
     }
 
     storage.saveStorageValue(storage.configKey, JSON.stringify(configs));
-    
+
     // Initialize the offsets storage.
     var offsetsList = JSON.parse(storage.retrieveStorageByKey(storage.autoScrollConfigKey));
-    
+
     if (offsetsList === null || offsetsList === "") {
       offsetsList = [];
       storage.saveStorageValue(storage.autoScrollConfigKey, JSON.stringify(offsetsList));
@@ -108,7 +108,7 @@ var storage = {
         offsetsList.splice(i , 1);
       }
     }
-    
+
     storage.saveStorageValue(storage.autoScrollConfigKey, JSON.stringify(offsetsList));
   },
 
