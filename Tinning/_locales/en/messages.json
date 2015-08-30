@@ -1,0 +1,80 @@
+{
+  "appName": {
+    "message": "Tinning the Tabs"
+  },
+  "appDesc": {
+    "message": "A temporary tabs holding and management. The new designed UI enhance the interaction and practicability of this extension."
+  },
+  "optionHtmlTitle": {
+    "message": "Preference"
+  },
+  "displayMode": {
+    "message": "Display Mode"
+  },
+  "displayModeTooltips": {
+    "message": "Display mode in popup page: Grid or List."
+  },
+  "closeTabAfterTin": {
+    "message": "Close Tab After Tin"
+  },
+  "closeTabAfterTinTooltips": {
+    "message": "We will close all the tabs in the chrome window as soon as you tin them."
+  },
+  "openTabsInNewWindow": {
+    "message": "Open Tabs In New Window"
+  },
+  "openTabsInNewWindowTooltips": {
+    "message": "If enabled, all the tabs will be open in a totally new Google Chrome window."
+  },
+  "automaticallySendUsageStatistics": {
+    "message": "Automatically send usage statistics"
+  },
+  "automaticallySendUsageStatisticsTooltips": {
+    "message": "If enabled, it will send anonymous data to the remote server in the background, such as the version of your Google Chrome, the version of Tinning, operation platform and the total numbers of tinned and un-tinned tabs. We will not collect your personal data."
+  },
+  "scrollToTheLastPositionAfterUnTinTabs": {
+    "message": "Scroll to the last position after un-Tin tabs"
+  },
+  "scrollToTheLastPositionAfterUnTinTabsTooltips": {
+    "message": "If enabled, the page will scroll to the position where you tinned it before."
+  },
+  "feedbackFeildsEmptyMsg": {
+    "message": "Sorry! Please fill in both fields."
+  },
+  "feedbackSuccessMsg": {
+    "message": "Thanks for your feedback, I'll read it in detail and reply you ASAP!."
+  },
+  "feedbackFailureMsg": {
+    "message": "Sorry! Something wrong happened, it's definitely my mistake."
+  },
+  "feedback": {
+    "message": "Feedback"
+  },
+  "donate": {
+    "message": "Donate"
+  },
+  "provideFeedback": {
+    "message": "Provide Feedback"
+  },
+  "setting": {
+    "message": "Setting"
+  },
+  "sendFeedback": {
+    "message": "Send Feedback"
+  },
+  "mailAddress": {
+    "message": "E-mail"
+  },
+  "thanksFeedback": {
+    "message": "Thank you for your coffee."
+  },
+  "paypal": {
+    "message": "Paypal"
+  },
+  "wechat": {
+    "message": "WeChat"
+  },
+  "alipay": {
+    "message": "Alipay"
+  }
+}

@@ -1,0 +1,280 @@
+/* Welcome to Compass.
+ * In this file you should write your main styles. (or centralize your imports)
+ * Import this file using the following HTML or equivalent:
+ * <link href="/stylesheets/style.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
+
+// @import "compass/reset";
+
+@import "custom";
+@import "popover";
+@import "radio_button";
+@import "compass/css3/transform";
+@import "compass/css3/user-interface";
+
+$top-bar-margin: 10px;
+$popup-width: 350px;
+$popup-height: 400px;
+
+html {
+  -ms-touch-action: none;
+}
+
+body,ul,li {
+  padding: 0;
+  margin: 0;
+  border: 0;
+}
+
+body {
+  font-size: 12px;
+  font-family: ubuntu, helvetica, arial;
+  width: $popup-width;
+  height: $popup-height;
+  // overflow: hidden; /* this is important to prevent the whole page to bounce */
+}
+
+.row {
+  width: 100%;
+  padding: 5px 0px;
+  clear: both;
+}
+
+textarea, select {
+  -webkit-font-smoothing: antialiased;
+  background-color: transparent;
+  font-family: 'Lato', sans-serif;
+  border: 0;
+  width: 100%;
+  padding: 2px 4px;
+  display: block;
+  box-sizing: border-box;
+  box-shadow: 0 1px 0 0 #D7D7D7;
+  resize: none;
+  height: auto;
+  color: #5B5B5B;
+  outline:none;
+  padding-bottom: 5px;
+  padding-top: 5px;  
+}
+
+.title-input {
+  text-align: left;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-left: 5px;
+}
+
+textarea, select {
+  margin: 0;
+  transition: all 300ms ease;
+}
+
+textarea:focus, select:focus {
+  background-color: #fff;
+  box-shadow: 0 0 5px rgba(43, 136, 217, 0.5);
+  z-index: 1;
+}
+.tinning-watermark {
+  position: absolute;  
+  z-index: 0;  
+  top: 70px;  
+  width: 100%;  
+  height: 100%;  
+  overflow: hidden;  
+  text-align: center;
+  opacity: 0.3;
+  .brand {
+    font-size: 20px;
+    margin-top: 5px;
+    color: #4A4A4A;
+    font-family: "Source Code Pro";
+  }
+}
+#top-bar {
+  position: fixed;
+  top: 0px;
+  background-color: #fff;
+  display: inline-block;
+  width: $popup-width;
+  line-height: 50px;
+  div {
+    line-height: 50px;
+  }
+  .item {
+    float: left;
+  }
+  .options-btn {
+    margin-left: $top-bar-margin;
+    text-align: center;
+    #option-arrow {
+      margin-top: 10px;
+    }
+  }
+  .top-bar-right {
+    right: 10px;
+    position: absolute;
+    #tin-tabs {
+      font-weight: bold;
+      font-size: 14px;
+    }
+  }
+}
+.count {
+  min-height: 16px;
+  min-width: 16px;
+  font-size: 11px;
+  color: #fff;
+  background-color: #C0392B;
+  border: 1px solid #C0392B;
+  border-radius: 10px;
+  vertical-align: middle;
+  text-align: center;
+  padding: 2px 5px;
+}
+.tab-collection-li {
+  &.hover {
+    background-color: #F2F2F2;
+    cursor: pointer;
+  }
+  color: #000;
+  border: 1px solid #cccccc;
+  background-color: #FFFFFF;
+  margin: 10px 4px;
+  -webkit-box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+}
+.tabs-count {
+  position: absolute;
+  max-width: 35px;
+  margin-top: 5px;
+}
+.tabs-tools {
+  position: relative;
+  float: right;
+  display: none;
+  z-index: 10;
+  &.rotate-loading {
+    transform: rotate(360deg);
+    transition: all 500ms ease;
+  }
+}
+.tab-collection-grid {
+  padding: 0px;
+  clear: both;
+  > li {
+    padding: 8px;
+    @extend .tab-collection-li;
+    .tab-collection-grid-item {
+      width: 100%;
+      display: inline-block;
+      input {
+        float: left;
+      }
+      .tabs-tools {
+        margin-right: 5px;
+      }
+      .content {
+        float: left;
+        min-height: 50px;
+        margin-left: 35px;
+        width: 310px;
+        margin-top: 5px;
+        .icon-wrapper {
+          position: relative;
+          width: 100%;
+          margin-left: 5px;
+          padding: 10px 0px;
+          img {
+            margin: 0px 2px;
+          }
+          ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            text-align: center;
+            width: 100%;
+            height: 100%;
+            li {
+              display: block;
+              float: left;
+              font-size: 14px;
+              padding: 0px 2px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+.tab-collection-list {
+  .count {
+    margin-top: 5px;
+  }
+  padding: 0px;
+  > li {
+    padding: 8px;
+    @extend .tab-collection-li;
+    .tab-collection-list-item {
+      width: 100%;
+      display: inline-block;
+      input {
+        float: left;
+      }
+      .tabs-tools {
+        margin: 3px 5px 0px 0px;
+      }
+      ul {
+        float: left;
+        margin-left: 35px;
+        width: 310px;
+        li {
+          padding-bottom: 5px;
+          padding-top: 5px;
+          list-style: none;
+          img {
+            vertical-align: middle;
+            margin-right: 5px;
+          }
+          .title {
+            width: 300px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+        }
+      }
+    }
+  }
+}
+#wrapper {
+  position: relative;
+  z-index: 1;
+  top: 40px;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  & #scroller {
+    position: absolute;
+    z-index: 1;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    width: 100%;
+    @include transform(translateZ(0));
+    @include user-select(none);
+    -webkit-touch-callout: none;
+    -webkit-text-size-adjust: none;
+    text-size-adjust: none;
+  }
+}
+.fade-in-wrapper {
+  margin: 0;
+  transition: all 300ms ease;
+}
+#option-popover {
+  .row {
+    text-align: center;
+    min-height: 30px;
+    line-height: 40px !important;
+  }
+}

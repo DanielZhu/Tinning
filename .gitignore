@@ -1,0 +1,6 @@
+Tinning_release
+res
+api/slim
+api/notorm
+api/connect.inc.php
+packages/release_api

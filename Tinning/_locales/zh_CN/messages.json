@@ -1,0 +1,80 @@
+{
+	"appName": {
+    "message": "Tinning the Tabs"
+  },
+  "appDesc": {
+    "message": "为你打造极其便利的标签暂存功能，全新的界面设计更提高了交互性和实用性，每次重新打开的页面将会定位在关闭时的位置，一切惊喜等您去探索。"
+  },
+  "optionHtmlTitle": {
+    "message": "偏好设置"
+  },
+  "displayMode": {
+    "message": "显示方式"
+  },  
+  "displayModeTooltips": {
+  	"message": "在主窗口中可以以网格或者列表方式显示存档的标签"
+  },
+  "closeTabAfterTin": {
+  	"message": "自动关闭已存档的标签"
+  },
+  "closeTabAfterTinTooltips": {
+  	"message": "一旦您企图存档当前窗口的标签，我们将会同时关闭它们，为您节省一部分的内存消耗，提升浏览器性能。"
+  },
+  "openTabsInNewWindow": {
+  	"message": "在新浏览器窗口还原标签"
+  },
+  "openTabsInNewWindowTooltips": {
+  	"message": "如果打开该选项，所有的标签将会在新的Chrome浏览器窗口中还原打开。"
+  },
+  "automaticallySendUsageStatistics": {
+  	"message": "自动发送匿名使用数据"
+  },
+  "automaticallySendUsageStatisticsTooltips": {
+  	"message": "如果打开该选项，Tinning会自动发送一些插件使用中的信息到远程服务器，它们是：浏览器版本号、插件版本号、操作系统版本、存档和还原的标签个数，我们不会收集涉及用户隐私的数据，您浏览的任何标签内容是不会被存储的。"
+  },
+  "scrollToTheLastPositionAfterUnTinTabs": {
+  	"message": "标签还原时显示在关闭前的位置"
+  },
+  "scrollToTheLastPositionAfterUnTinTabsTooltips": {
+  	"message": "如果打开该选项，在你再次还原存档中的标签时，它会自动滚动至存档时的显示位置，便于您的阅读浏览体验。"
+  },
+  "feedbackFeildsEmptyMsg": {
+  	"message": "抱歉！为了便于我们尽快能回复到您的反馈，希望您能同时填写邮箱地址和反馈内容。"
+  },
+  "feedbackSuccessMsg": {
+  	"message": "非常感谢您提交的反馈！我会尽快阅读后回复您。"
+  },
+  "feedbackFailureMsg": {
+  	"message": "抱歉!一些未知的错误冒出来了，这必然是我的错误，请在反馈中提交该问题，谢谢。"
+  },
+  "feedback": {
+    "message": "反馈"
+  },
+  "donate": {
+    "message": "赞助"
+  },
+  "provideFeedback": {
+    "message": "您的意见"
+  },
+  "setting": {
+    "message": "偏好设置"
+  },
+  "sendFeedback": {
+    "message": "提交反馈"
+  },
+  "mailAddress": {
+    "message": "电子邮件"
+  },
+  "thanksFeedback": {
+    "message": "感谢您给开发者赠送的咖啡。"
+  },
+  "paypal": {
+    "message": "贝宝"
+  },
+  "wechat": {
+    "message": "微信"
+  },
+  "alipay": {
+    "message": "支付宝"
+  }
+}

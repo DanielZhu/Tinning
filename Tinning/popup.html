@@ -1,0 +1,110 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Getting Started Extension's Popup</title>
+    <link rel="stylesheet" type="text/css" href="tinning.css">
+
+    <!--
+      - JavaScript and HTML must be in separate files: see our Content Security
+      - Policy documentation[1] for details and explanation.
+      -
+      - [1]: http://developer.chrome.com/extensions/contentSecurityPolicy.html
+     -->
+
+    <script src="./libs/jquery-2.0.3.min.js"></script>
+    <script src="./libs/iscroll.js"></script>
+    <script src="./libs/handlebars-v2.0.0.js"></script>
+    <script src="storage.js"></script>
+    <script src="popup.js"></script>
+  </head>
+  <body>
+    <script id="tab-collection-grid-tpl" type="text/x-handlebars-template">
+      <ul class="tab-collection-grid">
+        {{#each tinnedList }}
+        <li folderId="{{id}}">
+          <div class="tab-collection-grid-item">
+            <div class="tabs-count">
+              <span class="count">{{item.length}}</span>
+            </div>
+            <div class="tabs-tools" folderId="{{id}}">
+              <img src="res/close.png">
+            </div>
+            <div class="content">
+              <textarea folderId="{{id}}" class="title-input" maxlength="100" rows="1" type="text" placeholder="Add a title..." tabindex="0" title="{{title}}">{{title}}</textarea>
+              <div class="icon-wrapper">
+                <ul>
+                  {{#each this.item }}
+                    <li><img src="chrome://favicon/{{url}}" tip="{{title}}"></li>
+                  {{/each}}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </li>
+        {{/each}}
+      </ul>
+    </script>
+    <script id="tab-collection-list-tpl" type="text/x-handlebars-template">  
+      <ul class="tab-collection-list">
+        {{#each tinnedList }}
+        <li folderId="{{id}}">
+          <div class="tab-collection-list-item">
+            <div class="tabs-count">
+              <span class="count">{{item.length}}</span>
+            </div>
+            <div class="tabs-tools" folderId="{{id}}">
+              <img src="res/close.png">
+            </div>
+            <ul>
+              <li>
+                <textarea folderId="{{id}}" class="title-input" maxlength="100" rows="1" type="text" placeholder="Add a title..." tabindex="0" title="{{title}}">{{title}}</textarea>
+              </li>
+              {{#each this.item }}
+                <li>
+                  <div class="title"><img src="chrome://favicon/{{url}}" title="{{title}}">{{title}}</div>
+                </li>
+              {{/each}}
+            </ul>
+          </div>
+        </li>
+        {{/each}}
+      </ul>
+    </script>
+    <div class="mask"></div>
+    <div id="icon-tooltips-popover" class="popover bottom">
+      <div class="popover-detail">{{title}}</div>
+    </div>
+    <div id="option-popover" class="popover right">
+      <div class="popover-detail">
+        <div class="row"><span id="setting-tabs" class="button"></span></div>
+        <div id="display-mode" class="row">
+          <div class="radio-button">
+            <div class="radio-item">
+              <div class="radio-slider"></div>
+              <img src="res/grid.png" class="radio-label" />
+            </div>
+            <div class="radio-item">
+              <img src="res/list.png" class="radio-label" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="top-bar">
+      <!-- <div class="item logo">Tinning</div> -->
+      <div class="item options-btn"><img id="option-arrow" width="24" src="res/arrow-down.png"></div>
+      <div class="item top-bar-right">
+        <span id="tin-tabs" class="button">Tin Tabs</span>
+      </div>
+    </div>
+    <div class="tinning-watermark">
+      <img src="res/tinning_logo_48.png">
+      <div class="brand">Tinning</div>
+    </div>
+    <div id="wrapper" class="fade-in-wrapper">
+      <div id="scroller">
+      </div>
+    </div>
+  </body>
+</html>
+

@@ -1,0 +1,65 @@
+/* Welcome to Compass.
+ * In this file you should write your main styles. (or centralize your imports)
+ * Import this file using the following HTML or equivalent:
+ * <link href="/stylesheets/style.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
+
+$radioHeight: 34px;
+
+.radio-button {
+  display: inline-block;
+  border: 1px solid #9BCD33;
+  padding: 1px;
+  border-radius: 5px;
+  clear: both;
+  height: $radioHeight;
+  vertical-align: middle;
+  background-color: #9BCD33;
+}
+.radio-label {
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+  color: white;
+  padding-left: 5px;
+  line-height: $radioHeight !important;
+}
+.radio-item {
+  position: relative;
+  float: left;
+  min-width: 40px;
+  padding: 0px 5px;
+  text-align: center;
+  cursor: pointer;
+  height: $radioHeight;
+}
+.on {
+  background-color: #9BCD33;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+.off {
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  background-color: #E5E5E5;
+}
+.radio-slider {
+  position: absolute;
+  width: 100%;
+  height: $radioHeight;
+  left: 0%;
+  top: 0%;
+  z-index: 2;
+  text-align: center;
+  background-color: #E5E5E5;
+  -webkit-transition: 0.3s ease-in-out;
+  border-radius: 5px 0px 0px 5px;
+  // background-image: url(res/radio-back.png);
+  // background-repeat: no-repeat;
+  // background-position: 50% 44%;  
+}
+.radio-slider-move {
+  border-radius: 0px 5px 5px 0px;
+  -webkit-transform: translate(100%);
+}
